@@ -1,0 +1,9 @@
+<resource>
+    <color name="backgroundColor">#fcc425</color>
+    <color name="primaryColor">#fcc425</color>
+    <color name="colorPrimaryVariant">#fcc425</color>
+    <color name="colorOnPrimary">#fcc425</color>
+    <color name="colorSecondary">#e5af17</color>
+    <color name="colorSecondaryVariant">#fcc425</color>
+    <color name="colorOnSecondary">#fcc425</color>
+</resource>

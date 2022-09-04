@@ -1,0 +1,9 @@
+<declare-stylable name="Theme">
+    <attr name="backgroundColor" format="color|reference"/>
+    <attr name="primaryColor" format="color|reference"/>
+    <attr name="colorPrimaryVariant" format="color|reference"/>
+    <attr name="colorOnPrimary" format="color|reference"/>
+    <attr name="colorSecondary" format="color|reference"/>
+    <attr name="colorSecondaryVariant" format="color|reference"/>
+    <attr name="colorOnSecondary" format="color|reference"/>
+</declare-stylable>
