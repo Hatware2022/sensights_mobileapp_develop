@@ -1,6 +1,8 @@
 import {
+  Button,
   Image,
   Linking,
+  Modal,
   Text,
   TextInput,
   TouchableOpacity,
@@ -40,6 +42,8 @@ export const SignupForm = props => {
   const [compnayList, setCompnayList] = useState([]);
   const [selectedCompany, setSelectedCompany] = useState(null);
   const [error, setError] = useState(null);
+  const [emailSend, setEmailSend] = useState(false);
+  const [emailVerified, setEmailVerified] = useState(false);
 
   const {isChecked, navigation, onCheckBoxPress, appType} = props;
 
@@ -58,6 +62,19 @@ export const SignupForm = props => {
       // effect
     };
   }, [props]);
+
+  useEffect(() => {
+    Linking.addEventListener("url", handleDeepLink);
+    return () => {
+      Linking.removeEventListener("url", handleDeepLink);
+    };
+  }, []);
+
+  function handleDeepLink(event) {
+    let url = event.url
+    let splitedArr = url.split("code=");
+    splitedArr && splitedArr.length > 0 && setEmailSend(true) || setEmailVerified(true)
+  }  
 
   const showError = error => {
     setTimeout(
@@ -169,13 +186,7 @@ export const SignupForm = props => {
         .post(api.signUp, body)
         .then(res => {
           if (res?.data != null) {
-            navigation.navigate('CodeVerificationRegistration', {
-              Email: email,
-              Password: password,
-              UserType: userType ? '2' : '1',
-              AppType: appType ? '2' : '1',
-              CompanyId: userType == 1 ? selectedCompany : '',
-            });
+            setEmailSend(true)
           }
           setLoading(false);
         })
@@ -350,6 +361,20 @@ export const SignupForm = props => {
         </Text>
       </TouchableOpacity>
 
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={emailSend}
+          onRequestClose={() => setShowModal(false)}>
+              <View style={styles.card}>
+                  <Image source={require('../../assets/images/tick.png')} style={styles.modalImg}/>
+                  <Text style={styles.modalHeading}>{emailVerified ? 'Verified' : 'Email Sent'}</Text>
+                  <Text style={styles.modalTxt}>{emailVerified ? 'Your Email has been confirmed. Please go back to login page.' : 'Please check your email for verification link'}</Text>
+                <View style={styles.modalBtn}>
+                 <Button title='OK' onPress={()=>emailVerified ? setEmailVerified(false) || setEmailSend(false)  : setEmailSend(false)} />
+                 </View>
+              </View>
+        </Modal>
       {/* <TouchableOpacity style={{borderWidth:1, padding:20, margin:20}} onPress={()=>{
                 navigation.navigate("ResetPassword", {
                   Email: "email", Password: "password",

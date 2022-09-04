@@ -96,4 +96,38 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  card: {
+    width: '90%',
+    minHeight: 100,
+    backgroundColor: '#fff',
+    elevation: 5,
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: '45%',
+    borderRadius: 10,
+  },
+  modalImg: {
+    width: 70, 
+    height: 70, 
+    alignSelf: 'center'
+  },
+  modalHeading: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: 22,
+    marginTop: 10,
+  },
+  modalTxt: {
+    alignSelf: 'center',
+    fontWeight: '500',
+    fontSize: 18,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  modalBtn: {
+    width: 70, 
+    alignSelf: 'center', 
+    marginTop: 30, 
+    marginBottom: 10
+  },
 });
