@@ -4,7 +4,7 @@ const PROD = 'https://login.sensights.ai:8080';
 
 // export const API_URL = DEV;
 // export const API_URL = STAGE;
-export const API_URL = PROD;
+export const API_URL = STAGE;
 
 export const externalInviteUrl = (pinCode) => {
     const PRODUCTION_INIVITE_URL = `https://login.sensights.ai/meeting/external/${pinCode}`

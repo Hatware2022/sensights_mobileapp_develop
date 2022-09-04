@@ -237,8 +237,6 @@ PODS:
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
     - React
-  - react-native-image-picker (4.10.0):
-    - React-Core
   - react-native-immediate-phone-call (2.0.0):
     - React
   - react-native-location (2.5.0):
@@ -409,7 +407,6 @@ DEPENDENCIES:
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-geocoder (from `../node_modules/react-native-geocoder`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
-  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-immediate-phone-call (from `../node_modules/react-native-immediate-phone-call`)
   - react-native-location (from `../node_modules/react-native-location`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -521,8 +518,6 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-geocoder"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
-  react-native-image-picker:
-    :path: "../node_modules/react-native-image-picker"
   react-native-immediate-phone-call:
     :path: "../node_modules/react-native-immediate-phone-call"
   react-native-location:
@@ -634,7 +629,6 @@ SPEC CHECKSUMS:
   react-native-contacts: 931baebf460125c5a7bbce1c4521a96c69795123
   react-native-geocoder: 757427682892bb256f3b3745858cc90eba148a8e
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
-  react-native-image-picker: 4bc9ed38c8be255b515d8c88babbaf74973f91a8
   react-native-immediate-phone-call: eb8a86325478db6c066eac6ecf8fa9ba3fbf66c5
   react-native-location: 5a40ec1cc6abf2f6d94df979f98ec76c3a415681
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
@@ -681,6 +675,6 @@ SPEC CHECKSUMS:
   ZendeskMessagingSDK: 95d396c981dacfab83cc7b9736e8561d51a3052b
   ZendeskSDKConfigurationsSDK: ebced171fd1f4eb57760e8537d8cfa6a450122be
 
-PODFILE CHECKSUM: ff0112ce595056af8b0cda3e4b56d059e0fed17c
+PODFILE CHECKSUM: 783ae7c378e62852a0f616cde424c731e7b27e5c
 
 COCOAPODS: 1.11.3

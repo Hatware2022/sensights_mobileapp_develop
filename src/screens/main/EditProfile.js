@@ -29,7 +29,7 @@ import _ from 'lodash';
 import {canadaStates, usStates, otherState} from '../../utils/constants';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import React, {Component} from 'react';
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Snackbar from 'react-native-snackbar';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {GET_BRANCHES_AND_AGENTS} from '../../api';
@@ -578,45 +578,45 @@ export class EditProfile extends Component {
   };
 
   uploadPhoto = selectOption => {
-    const picker =
-      selectOption === 'camera' ? launchCamera : launchImageLibrary;
-    const options = {
-      title: 'Select Image',
-      allowsEditing: true,
-      maxWidth: 450,
-      maxHeight: 450,
-      storageOptions: {
-        skipBackup: true,
-      },
-    };
+    // const picker =
+    //   selectOption === 'camera' ? launchCamera : launchImageLibrary;
+    // const options = {
+    //   title: 'Select Image',
+    //   allowsEditing: true,
+    //   maxWidth: 450,
+    //   maxHeight: 450,
+    //   storageOptions: {
+    //     skipBackup: true,
+    //   },
+    // };
 
-    picker(options, response => {
-      this.setState({modalVisible: false});
-      if (response.didCancel) {
-        Snackbar.show({
-          text: 'Cancelled image picker',
-          duration: Snackbar.LENGTH_SHORT,
-        });
+    // picker(options, response => {
+    //   this.setState({modalVisible: false});
+    //   if (response.didCancel) {
+    //     Snackbar.show({
+    //       text: 'Cancelled image picker',
+    //       duration: Snackbar.LENGTH_SHORT,
+    //     });
 
-        // console.log('User cancelled image picker');
-      } else if (response.error) {
-        Snackbar.show({
-          text: 'Image picker Error',
-          duration: Snackbar.LENGTH_SHORT,
-        });
-        //  console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        //  console.log('User tapped custom button: ', response.customButton);
-      } else {
-        this.setState({
-          image: {
-            uri: response.assets[0].uri,
-            type: response.assets[0].type,
-            name: response.assets[0].fileName || 'profile.jpg',
-          },
-        });
-      }
-    });
+    //     // console.log('User cancelled image picker');
+    //   } else if (response.error) {
+    //     Snackbar.show({
+    //       text: 'Image picker Error',
+    //       duration: Snackbar.LENGTH_SHORT,
+    //     });
+    //     //  console.log('ImagePicker Error: ', response.error);
+    //   } else if (response.customButton) {
+    //     //  console.log('User tapped custom button: ', response.customButton);
+    //   } else {
+    //     this.setState({
+    //       image: {
+    //         uri: response.assets[0].uri,
+    //         type: response.assets[0].type,
+    //         name: response.assets[0].fileName || 'profile.jpg',
+    //       },
+    //     });
+    //   }
+    // });
   };
 
   getToken = async () => {
