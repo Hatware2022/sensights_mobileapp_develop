@@ -13,7 +13,7 @@ export const api = {
   marksAsReadAlert: baseURL + 'Alerts/Acknowledge/All/UnRead/{userId}',
   baseURL: baseURL,
   logout: baseURL + 'Accounts/Logout',
-  signUp: baseURL + 'Accounts/Account',
+  signUp: baseURL + 'Accounts/AccountTest',
   addSenior: baseURL + 'Seniors/Add',
   removeSeniorUrl: baseURL + 'CareGivers/',
   addTask: baseURL + 'SeniorCaregiverTask',
