@@ -6,6 +6,8 @@ import RNDialog from 'react-native-dialog';
 import {styles} from './styles';
 import {getTOffset} from '../../utils/Utils';
 import moment from 'moment';
+import Feather from 'react-native-vector-icons/Feather';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 export const TasksItem = props => {
   const [visible, setVisible] = useState(false);
   const priorityArray = [
@@ -118,12 +120,20 @@ export const TasksItem = props => {
                 </Col>
               </Row>
               {createdDate && (
+                <>
+                <View style={{flexDirection:'row',marginRight:'7%',}}>
                 <Text
                   style={{width: '90%', marginTop: 5}}
                   numberOfLines={1}
                   ellipsizeMode={'tail'}>
                   {createdDate}
                 </Text>
+                <View style={{flexDirection:'row',marginTop:5}}>
+                  <Feather name='edit' size={18} onPress={props.onPressEdit} />
+                  <AntDesign name='delete' size={18} style={{paddingHorizontal:7}} onPress={props.onPressDelete}/>
+                </View>
+                </View>
+                </>
               )}
               {props.overdue && (
                 <View style={styles.overdueContainer}>

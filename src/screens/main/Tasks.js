@@ -176,6 +176,32 @@ export class Tasks extends Component {
     }
   };
 
+  handleDelete= async(taskId)=>{
+    try {
+      await axios
+        .delete(`${api.deleteTask}${taskId}`)
+        .then(res => {
+       Snackbar.show({
+        text: 'Deleted successfully',
+        duration: Snackbar.LENGTH_SHORT,
+      });
+       this.getTasksFromServer();
+        })
+        .catch(err => {
+          // alert(err)
+          this.setState({spinner: false});
+          setTimeout(() => {
+            Snackbar.show({
+              text: err?.description,
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          }, 100);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -210,6 +236,8 @@ export class Tasks extends Component {
                   taskPriority={item.taskPriority}
                   id={item.id}
                   showTaskCompleteDialog={this.showTaskCompleteDialog}
+                  onPressEdit={()=>this.props.navigation.navigate('EditTaskForm')}
+                  onPressDelete={()=>this.handleDelete(item.id)}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}

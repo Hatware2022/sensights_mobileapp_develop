@@ -91,6 +91,7 @@ export const api = {
   getUnRegistertedUsers: baseURL + 'MeetingRoom/Get/UnRegisterd/Users',
   deleteScheduleCall: baseURL + 'MeetingRoom/Remove',
   updateScheduleCall: baseURL + 'MeetingRoom/Update',
+  deleteTask: baseURL + 'SeniorCaregiverTask/Task/',
 
   //updated meeting room Api's
   //to get all meetings (scheduled,pending,completed,rejected)
