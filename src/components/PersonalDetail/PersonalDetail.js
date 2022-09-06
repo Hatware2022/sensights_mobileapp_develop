@@ -13,7 +13,7 @@ export const PersonalDetail = props => {
           <Image source={avatar} style={styles.avatar} />
         </View>
         <View style={styles.content}>
-          <View>
+          <View style={{width:'60%'}}>
             <Text style={styles.title}>{title}</Text>
             <Text numberOfLines={1} style={styles.time}>
               {email}
