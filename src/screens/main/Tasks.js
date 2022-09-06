@@ -1,5 +1,5 @@
 import {showMessage} from '../../utils';
-import {FlatList, View, StyleSheet} from 'react-native';
+import {FlatList, View, StyleSheet, Alert} from 'react-native';
 import {
   NoDataState,
   SearchBar,
@@ -237,7 +237,23 @@ export class Tasks extends Component {
                   id={item.id}
                   showTaskCompleteDialog={this.showTaskCompleteDialog}
                   onPressEdit={()=>this.props.navigation.navigate('EditTaskForm')}
-                  onPressDelete={()=>this.handleDelete(item.id)}
+                  onPressDelete={()=> Alert.alert(
+                    'Warning',
+                    'Are you sure, you want to delete',
+                    [
+                      {
+                        text: 'No',
+                        onPress: () => console.log('Cancel Pressed'),
+                        style: 'cancel',
+                      },
+                      {
+                        text: 'Yes', 
+                        onPress: () => this.handleDelete(item.id)
+                      },
+                    ],
+                    {cancelable: false},
+                  )}
+                  // onPressDelete={()=>this.handleDelete(item.id)}
                 />
               )}
               keyExtractor={(item, index) => index.toString()}
