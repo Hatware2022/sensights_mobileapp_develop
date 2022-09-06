@@ -26,6 +26,7 @@ import {
   ManualDataInputScreen,
   Medication,
   TaskForm,
+  EditTaskForm,
   PatientDairyScreen,
   PrivacySettings,
   PrivacyPolicy,
@@ -327,6 +328,10 @@ export const AppNavigator = createStackNavigator(
     },
     TaskForm: {
       screen: TaskForm,
+      navigationOptions: navProps => default_headerProps(navProps, {}),
+    },
+    EditTaskForm: {
+      screen: EditTaskForm,
       navigationOptions: navProps => default_headerProps(navProps, {}),
     },
     PrivacySettings: {
