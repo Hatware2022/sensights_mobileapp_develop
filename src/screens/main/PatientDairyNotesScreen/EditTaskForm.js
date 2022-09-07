@@ -40,18 +40,19 @@ import {
     const [loadingSave, setLoadingSave] = useState(false);
   
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDate, setSelectedDate] = useState('');
+    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params.item?.taskDate);
+    const [item,setItem]= useState(props.navigation.state.params.item)
   
     const [fields, setFields] = useState({
       alertId: 0,
       assignedForId: props.navigation.getParam('seniorId', null),
       category: 'Caretaker', // "Supervisor",
-      taskDate: null, //yyyy/MM/dd HH:mm
-      taskDescription: alert ? alert.title : null,
-      taskPriority: alert ? alert.taskPriority : 3,
+      taskDate: props.navigation.state.params.item?.taskDate, //yyyy/MM/dd HH:mm
+      taskDescription: props.navigation.state.params.item?.taskDescription,
+      taskPriority: props.navigation.state.params.item?.taskPriority,
       taskName: '',
       taskStatus: 0,
-      reminderOption: 0,
+      reminderOption: props.navigation.state.params.item?.reminderOption,
       userId: null, //: StorageUtils.getValue(AppConstants.SP.USER_ID),
     });
   
@@ -101,13 +102,14 @@ import {
     };
   
     const onSave = async () => {
+    let taskId=  props.navigation.state.params.item?.id
       if (!validateInput()) return;
       setLoadingSave(true);
       // const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
   
       try {
         await axios
-          .post(api.addTask, {...fields})
+          .put(`${api.updateTask}${taskId}`, {...fields})
           .then(res => {
             if (res?.data != null) {
               setLoadingSave(false);
@@ -204,7 +206,7 @@ import {
                 placeholderTextColor="black"
                 onChange={text => updateField('taskDescription', text)}
               />
-  
+  {console.log('props.navigation.state.params.item',props.navigation.state.params.item?.taskDescription)}
               <Text style={styles.label}>Date *</Text>
               <View>
                 <TouchableOpacity onPress={showDatePicker}>
@@ -257,7 +259,7 @@ import {
                   loading={loadingSave}
                   disabled={loadingSave}
                   loadingProps={{color: theme.colors.colorPrimary}}
-                  title="Save"
+                  title="Update"
                   titleStyle={{fontWeight: '600'}}
                   buttonStyle={{
                     backgroundColor: theme.colors.colorPrimary,

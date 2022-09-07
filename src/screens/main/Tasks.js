@@ -236,7 +236,7 @@ export class Tasks extends Component {
                   taskPriority={item.taskPriority}
                   id={item.id}
                   showTaskCompleteDialog={this.showTaskCompleteDialog}
-                  onPressEdit={()=>this.props.navigation.navigate('EditTaskForm')}
+                  onPressEdit={()=>this.props.navigation.navigate('EditTaskForm',{edit:true,item:item})}
                   onPressDelete={()=> Alert.alert(
                     'Warning',
                     'Are you sure, you want to delete',
