@@ -53,6 +53,15 @@ export class Tasks extends Component {
     this.getTasksFromServer();
   }
 
+  componentDidMount() {
+    const { navigation } = this.props;
+    this.focusListener = navigation.addListener('didFocus', () => {
+      // The screen is focused
+      // Call any action
+      this.getTasksFromServer();
+    });
+  }
+
   searchFilter = text => {
     const newData = this.arrayHolder.filter(item => {
       // return item.taskname.toLowerCase().includes(text.toLowerCase());
