@@ -1360,7 +1360,7 @@ export class EditProfile extends Component {
                     <Divider style={{marginLeft: 20}} />
                   </>
                 )}
-                {country === 'USA' && this.role === 'senior' && (
+                {/* {country === 'USA' && this.role === 'senior' && (
                   <>
                     <Text style={styles.labelHeading}>Medicare Number</Text>
                     <TextInput
@@ -1396,7 +1396,7 @@ export class EditProfile extends Component {
                     />
                     <Divider style={{marginLeft: 20}} />
                   </>
-                )}
+                )} */}
               </View>
 
               {this.role != 'caretaker' && (

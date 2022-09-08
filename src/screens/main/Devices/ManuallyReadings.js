@@ -53,10 +53,14 @@ export default class ManuallyReadings extends Component {
       fall,
       bpSystolic,
       bpDiastolic,
+      respiratoryLevel,
+      stress
     } = this.state;
     this.setState({spinner: true});
     if (
       heartRate.trim() != '' ||
+      respiratoryLevel.trim() != '' ||
+      stress.trim() != '' ||
       hrv.trim() != '' ||
       temperature.trim() != '' ||
       oxygenSaturation.trim() != '' ||
