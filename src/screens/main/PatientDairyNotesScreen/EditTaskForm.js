@@ -40,7 +40,7 @@ import {
     const [loadingSave, setLoadingSave] = useState(false);
   
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params.item?.taskDate);
+    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params.item?.taskDate?.substring(0,10));
     const [item,setItem]= useState(props.navigation.state.params.item)
   
     const [fields, setFields] = useState({
