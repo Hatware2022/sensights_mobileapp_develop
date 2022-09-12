@@ -33,7 +33,9 @@
 			<string>https</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>stage01.sensights.ai</string>
+				<string>sensights</string>
+				<string>ai.sensights</string>
+				<string>ai.sensights.stage01</string>
 			</array>
 		</dict>
 		<dict>

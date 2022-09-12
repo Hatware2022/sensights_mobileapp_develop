@@ -14,6 +14,7 @@ export const api = {
   baseURL: baseURL,
   logout: baseURL + 'Accounts/Logout',
   signUp: baseURL + 'Accounts/AccountTest',
+  signUpApple: baseURL + 'Accounts/AppleAccountTest',
   addSenior: baseURL + 'Seniors/Add',
   removeSeniorUrl: baseURL + 'CareGivers/',
   addTask: baseURL + 'SeniorCaregiverTask',
