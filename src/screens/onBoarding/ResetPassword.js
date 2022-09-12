@@ -8,6 +8,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  AsyncStorage
 } from 'react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 // import CodeFiled from "react-native-confirmation-code-field";
@@ -27,6 +28,7 @@ export class ResetPassword extends Component {
       confirmPassword: '',
       code: '',
       showPassword: true,
+      email:''
     };
   }
   containerProps = {style: styles.inputWrapStyle};
@@ -48,13 +50,14 @@ export class ResetPassword extends Component {
   };
 
   resetPassword = async () => {
-    if (this.state.code === '') {
-      Snackbar.show({
-        text: theme.strings.code_not_found,
-        duration: Snackbar.LENGTH_SHORT,
-      });
-      return;
-    }
+    AsyncStorage.getItem('email').then(e => this.setState({email:e}))
+    // if (this.state.code === '') {
+    //   Snackbar.show({
+    //     text: theme.strings.code_not_found,
+    //     duration: Snackbar.LENGTH_SHORT,
+    //   });
+    //   return;
+    // }
     if (this.state.password !== this.state.confirmPassword) {
       Snackbar.show({
         text: theme.strings.password_not_match,
@@ -71,12 +74,12 @@ export class ResetPassword extends Component {
     }
 
     var body = {
-      code: this.state.code,
+      // code: this.state.code,
       confirmPassword: this.state.confirmPassword,
-      email: this.props.navigation.state.params.email,
+      email: this.state.email,
       password: this.state.password,
     };
-
+    
     try {
       this.setState({spinner: true});
       await axios
@@ -91,6 +94,7 @@ export class ResetPassword extends Component {
                   duration: Snackbar.LENGTH_SHORT,
                 });
               }, 100);
+              AsyncStorage.clear()
               this.props.navigation.navigate('Login');
             } else {
               setTimeout(() => {
@@ -103,6 +107,7 @@ export class ResetPassword extends Component {
           }
         })
         .catch(err => {
+          // alert(JSON.stringify(err))
           this.setState({spinner: false});
           this.showError();
         });
@@ -127,7 +132,7 @@ export class ResetPassword extends Component {
           <Text style={styles.title}>{theme.strings.reset_password}</Text>
 
           <View style={{marginBottom: 20}}>
-            <VerificationCodeForm onChange={this.onFinishCheckingCode} />
+            {/* <VerificationCodeForm onChange={this.onFinishCheckingCode} /> */}
             {/* <CodeFiled
               rootStyle={{borderColor:"#FF0000"}}
               blurOnSubmit={false}
@@ -139,9 +144,9 @@ export class ResetPassword extends Component {
               onFulfill={this.onFinishCheckingCode}
             /> */}
           </View>
-          <Text style={styles.emailConfirmationText}>
+          {/* <Text style={styles.emailConfirmationText}>
             An email confirmation code has been sent to
-          </Text>
+          </Text> */}
           <Text style={styles.mailtitle}>
             {this.props.navigation.state.params.email}
           </Text>
