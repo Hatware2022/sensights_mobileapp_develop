@@ -3,6 +3,7 @@ import {
   Image,
   Linking,
   Modal,
+  Platform,
   Text,
   TextInput,
   TouchableOpacity,
@@ -183,7 +184,7 @@ export const SignupForm = props => {
 
     try {
       await axios
-        .post(api.signUp, body)
+        .post(Platform.OS === 'ios' ? api.signUpApple : api.signUp, body)
         .then(res => {
           if (res?.data != null) {
             setEmailSend(true)

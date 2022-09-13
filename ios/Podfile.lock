@@ -47,19 +47,19 @@ PODS:
     - GoogleMaps/Base
   - MultiplatformBleAdapter (0.1.9)
   - NodeMediaClient (2.9.4)
-  - Permission-BluetoothPeripheral (2.2.2):
+  - Permission-BluetoothPeripheral (3.3.1):
     - RNPermissions
-  - Permission-Camera (2.2.2):
+  - Permission-Camera (3.3.1):
     - RNPermissions
-  - Permission-MediaLibrary (2.2.2):
+  - Permission-MediaLibrary (3.3.1):
     - RNPermissions
-  - Permission-Microphone (2.2.2):
+  - Permission-Microphone (3.3.1):
     - RNPermissions
-  - Permission-Notifications (2.2.2):
+  - Permission-Notifications (3.3.1):
     - RNPermissions
-  - Permission-PhotoLibrary (2.2.2):
+  - Permission-PhotoLibrary (3.3.1):
     - RNPermissions
-  - PushyRN (1.0.23):
+  - PushyRN (1.0.24):
     - React (< 1.0.0, >= 0.13.0)
   - RCTRequired (0.62.0)
   - RCTTypeSafety (0.62.0):
@@ -237,6 +237,8 @@ PODS:
     - Google-Maps-iOS-Utils (= 2.1.0)
     - GoogleMaps (= 3.5.0)
     - React
+  - react-native-image-picker (4.8.5):
+    - React-Core
   - react-native-immediate-phone-call (2.0.0):
     - React
   - react-native-location (2.5.0):
@@ -339,7 +341,7 @@ PODS:
     - React-Core
   - RNGestureHandler (1.10.3):
     - React-Core
-  - RNPermissions (2.2.2):
+  - RNPermissions (3.3.1):
     - React-Core
   - RNReanimated (1.13.4):
     - React-Core
@@ -384,12 +386,12 @@ DEPENDENCIES:
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - Google-Maps-iOS-Utils
   - GoogleMaps
-  - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec`)
-  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera.podspec`)
-  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary.podspec`)
-  - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone.podspec`)
-  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications.podspec`)
-  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary.podspec`)
+  - Permission-BluetoothPeripheral (from `../node_modules/react-native-permissions/ios/BluetoothPeripheral/Permission-BluetoothPeripheral.podspec`)
+  - Permission-Camera (from `../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec`)
+  - Permission-MediaLibrary (from `../node_modules/react-native-permissions/ios/MediaLibrary/Permission-MediaLibrary.podspec`)
+  - Permission-Microphone (from `../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec`)
+  - Permission-Notifications (from `../node_modules/react-native-permissions/ios/Notifications/Permission-Notifications.podspec`)
+  - Permission-PhotoLibrary (from `../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec`)
   - PushyRN (from `../node_modules/pushy-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
@@ -407,6 +409,7 @@ DEPENDENCIES:
   - react-native-contacts (from `../node_modules/react-native-contacts`)
   - react-native-geocoder (from `../node_modules/react-native-geocoder`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
+  - react-native-image-picker (from `../node_modules/react-native-image-picker`)
   - react-native-immediate-phone-call (from `../node_modules/react-native-immediate-phone-call`)
   - react-native-location (from `../node_modules/react-native-location`)
   - react-native-maps (from `../node_modules/react-native-maps`)
@@ -477,17 +480,17 @@ EXTERNAL SOURCES:
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
   Permission-BluetoothPeripheral:
-    :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral.podspec"
+    :path: "../node_modules/react-native-permissions/ios/BluetoothPeripheral/Permission-BluetoothPeripheral.podspec"
   Permission-Camera:
-    :path: "../node_modules/react-native-permissions/ios/Camera.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Camera/Permission-Camera.podspec"
   Permission-MediaLibrary:
-    :path: "../node_modules/react-native-permissions/ios/MediaLibrary.podspec"
+    :path: "../node_modules/react-native-permissions/ios/MediaLibrary/Permission-MediaLibrary.podspec"
   Permission-Microphone:
-    :path: "../node_modules/react-native-permissions/ios/Microphone.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Microphone/Permission-Microphone.podspec"
   Permission-Notifications:
-    :path: "../node_modules/react-native-permissions/ios/Notifications.podspec"
+    :path: "../node_modules/react-native-permissions/ios/Notifications/Permission-Notifications.podspec"
   Permission-PhotoLibrary:
-    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary.podspec"
+    :path: "../node_modules/react-native-permissions/ios/PhotoLibrary/Permission-PhotoLibrary.podspec"
   PushyRN:
     :path: "../node_modules/pushy-react-native"
   RCTRequired:
@@ -518,6 +521,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-geocoder"
   react-native-google-maps:
     :path: "../node_modules/react-native-maps"
+  react-native-image-picker:
+    :path: "../node_modules/react-native-image-picker"
   react-native-immediate-phone-call:
     :path: "../node_modules/react-native-immediate-phone-call"
   react-native-location:
@@ -608,13 +613,13 @@ SPEC CHECKSUMS:
   GoogleMaps: 32ca02de09de357a10ac773f2c70f1986751392d
   MultiplatformBleAdapter: 5a6a897b006764392f9cef785e4360f54fb9477d
   NodeMediaClient: 588fe0f1e023a60c61a9d9ce6e602eb5806f8308
-  Permission-BluetoothPeripheral: 73e80c434beef6570ba7c322a6882a8d46c2c4d3
-  Permission-Camera: 5d2aaf95592660b6dcb5e8d1d90ed5d0156cad02
-  Permission-MediaLibrary: e94e0a30ec5edc18b14e9df10fc78d5bb592a8ca
-  Permission-Microphone: a0e56790d61392c31627df33328fef079ad46fa8
-  Permission-Notifications: 9c6b5cc4f0e6599e9fc3395b77cebddc48f1be41
-  Permission-PhotoLibrary: 8227a6ed9f6a971537afe63742d54f5f23a38fe2
-  PushyRN: 196e5f010deb374ceb405a520b2f72c8b4d754e6
+  Permission-BluetoothPeripheral: a408e2ba4b43e60c5a4b8b4d442bb8abc93394b2
+  Permission-Camera: bae27a8503530770c35aadfecbb97ec71823382a
+  Permission-MediaLibrary: cbc1ee191cf0fe73282d2b3f197714941783d99d
+  Permission-Microphone: 13922195a81b9d46d2df8050c225006eae126d49
+  Permission-Notifications: 4b21cfdd5e8aab2cbb1f117aaa17b44e1f5736c4
+  Permission-PhotoLibrary: ddb5a158725b29cb12e9e477e8a5f5151c66cc3c
+  PushyRN: 67112df40dca2bb8618c43304359080beb33a3d2
   RCTRequired: 0873f5bdb1762d2b9b1ae16a01c4f91d6ee3b6dd
   RCTTypeSafety: a605e0cc0e4220f6e65896bd9e675073c2978f35
   React: 8abf6bdd2b05538e9445f7bbda800df744068bfe
@@ -629,6 +634,7 @@ SPEC CHECKSUMS:
   react-native-contacts: 931baebf460125c5a7bbce1c4521a96c69795123
   react-native-geocoder: 757427682892bb256f3b3745858cc90eba148a8e
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
+  react-native-image-picker: cd420f97f6ed6ff74fc4686d27dbcfdbd051db91
   react-native-immediate-phone-call: eb8a86325478db6c066eac6ecf8fa9ba3fbf66c5
   react-native-location: 5a40ec1cc6abf2f6d94df979f98ec76c3a415681
   react-native-maps: f4b89da81626ad7f151a8bfcb79733295d31ce5c
@@ -657,7 +663,7 @@ SPEC CHECKSUMS:
   RNCPushNotificationIOS: 87b8d16d3ede4532745e05b03c42cff33a36cc45
   RNDateTimePicker: 7658208086d86d09e1627b5c34ba0cf237c60140
   RNGestureHandler: a479ebd5ed4221a810967000735517df0d2db211
-  RNPermissions: 5df468064df661a4c8c017e2791ce90d7695eea5
+  RNPermissions: 34d678157c800b25b22a488e4d8babb57456e796
   RNReanimated: c1b56d030d1616239861534d9adb531f8cffab68
   RNScreens: f7ad633b2e0190b77b6a7aab7f914fad6f198d8d
   RNSecureStorage: 8b2b07278d80c48b3a881c56e604ab147372f243
@@ -675,6 +681,6 @@ SPEC CHECKSUMS:
   ZendeskMessagingSDK: 95d396c981dacfab83cc7b9736e8561d51a3052b
   ZendeskSDKConfigurationsSDK: ebced171fd1f4eb57760e8537d8cfa6a450122be
 
-PODFILE CHECKSUM: 783ae7c378e62852a0f616cde424c731e7b27e5c
+PODFILE CHECKSUM: 10ae6d901724d36d4755456c4c121e4eb04ea260
 
 COCOAPODS: 1.11.3
