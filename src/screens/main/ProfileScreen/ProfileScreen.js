@@ -190,6 +190,15 @@ export class ProfileScreen extends Component {
       key: 'device-units',
     });
     profileSettingsList.push({
+      title: 'Medical Record',
+      onPress: () => {
+        navigation.navigate('MedicalReport', {
+          profileData: this.state.profileData,
+        });
+      },
+      key: 'medical_report',
+    });
+    profileSettingsList.push({
       title: 'Widgets Setting',
       onPress: () =>
         navigation.navigate('WidgetsSettings', {

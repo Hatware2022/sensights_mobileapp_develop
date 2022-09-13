@@ -65,6 +65,10 @@ import ScheduleCall, {AddSchedule} from '../screens/main/ScheduledVisits';
 import {ScheduleForm} from '../screens/main/ScheduledVisits/EditScheduleCall';
 import {ScheduleCallDetails} from '../screens/main/ScheduledVisits/ScheduleCallDetails';
 import VideoScreen from '../ConferenceCall/components/VideoScreen';
+import { MedicalReport } from '../screens/main/MedicalReport/MedicalReport';
+import { AddEditMedicalReportForm } from '../screens/main/MedicalReport/AddEditMedicalReportForm';
+
+
 const handleTransition = ({scene, scenes}) => {
   const prevScene = scenes[scenes.length - 2];
   const nextScene = scenes[scenes.length - 1];
@@ -205,6 +209,14 @@ export const AppNavigator = createStackNavigator(
     },
     EditProfileScreen: {
       screen: EditProfile,
+      navigationOptions: navProps => default_headerProps(navProps, {}),
+    },
+    MedicalReport: {
+      screen: MedicalReport,
+      navigationOptions: navProps => default_headerProps(navProps, {}),
+    },
+    AddEditMedicalReportForm: {
+      screen: AddEditMedicalReportForm,
       navigationOptions: navProps => default_headerProps(navProps, {}),
     },
     /////

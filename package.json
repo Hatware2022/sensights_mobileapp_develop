@@ -37,6 +37,7 @@
     "react-native-connectycube": "^3.9.1",
     "react-native-contacts": "^6.0.4",
     "react-native-dialog": "^6.2.0",
+    "react-native-document-picker": "^8.1.1",
     "react-native-dropdown-picker": "^4.0.2",
     "react-native-elements": "^1.2.7",
     "react-native-event-listeners": "^1.0.7",

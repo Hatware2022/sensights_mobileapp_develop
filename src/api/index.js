@@ -20,7 +20,7 @@ export const api = {
   getTasks: baseURL + 'SeniorCaregiverTask/My',
   updateTaskStatus: baseURL + 'SeniorCaregiverTask/Status',
   assignTasks: baseURL + 'SeniorCaregiverTask/Assigned/Tasks?userTypeEnum={2}',
-  forgotPassword: `${baseURL}Accounts/ForgotPassword`,
+  forgotPassword: `${baseURL}Accounts/ForgotPasswordTest`,
   resetPassword: `${baseURL}Accounts/ResetPassword`,
   ChangePassword: baseURL + 'Accounts/ChangePassword',
   activityScore: baseURL + 'Seniors/Stats/ActivityScore/LastWeek',
@@ -92,7 +92,10 @@ export const api = {
   deleteScheduleCall: baseURL + 'MeetingRoom/Remove',
   updateScheduleCall: baseURL + 'MeetingRoom/Update',
   deleteTask: baseURL + 'SeniorCaregiverTask/Task/',
+  deleteMedicalReport: baseURL + 'SeniorMedicalDetails/Upload/Document/',
   updateTask: baseURL + 'SeniorCaregiverTask/Task/',
+  careGiver:baseURL + 'CareGivers/My',
+  addMedicalReport : baseURL + 'SeniorMedicalDetails/Upload/Document',
 
   //updated meeting room Api's
   //to get all meetings (scheduled,pending,completed,rejected)
