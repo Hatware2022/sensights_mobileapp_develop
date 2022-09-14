@@ -372,7 +372,7 @@ export const SignupForm = props => {
                   <Text style={styles.modalHeading}>{emailVerified ? 'Verified' : 'Email Sent'}</Text>
                   <Text style={styles.modalTxt}>{emailVerified ? 'Your Email has been confirmed. Please go back to login page.' : 'Please check your email for verification link'}</Text>
                 <View style={styles.modalBtn}>
-                 <Button title='OK' onPress={()=>emailVerified ? setEmailVerified(false) || setEmailSend(false)  : setEmailSend(false)} />
+                 <Button title='OK' onPress={()=>emailVerified ? setEmailVerified(false) || setEmailSend(false) || props.navigation.navigate('Login')  : setEmailSend(false)} />
                  </View>
               </View>
         </Modal>
