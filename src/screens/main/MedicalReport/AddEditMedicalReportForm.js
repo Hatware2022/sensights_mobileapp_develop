@@ -39,9 +39,9 @@ export const AddEditMedicalReportForm = props => {
   const name = props.navigation.getParam('name', null);
   const alert = props.navigation.getParam('alert', null);
 
-  const [message, setMessage] = useState(props.navigation.state.params.item)
+  const [message, setMessage] = useState(props.navigation.state.params?.item)
   const [careGiverList, setCareGiverList] = useState(null)
-  const [file, setFile] = useState(props.navigation.state.params.item)
+  const [file, setFile] = useState(props.navigation.state.params?.item)
   const [selectedCareGiver, setSelectedCareGiver] = useState('')
   const [loadingSave, setLoadingSave] = useState(false);
 
@@ -114,7 +114,11 @@ export const AddEditMedicalReportForm = props => {
 
   const handleAddMedicalReport = async () => {
     let body = {
-
+      AttachmentPath:'',
+      PatientId:'',
+      Message:'',
+      Comments:'',
+      MedicalAttachment:''
     }
     try {
       await axios
@@ -141,7 +145,7 @@ export const AddEditMedicalReportForm = props => {
       <SafeAreaView
         style={[styles.root, { backgroundColor: theme.colors.colorPrimary }]}>
         <NavigationHeaderV2
-          title={props.navigation.state.params.edit ? 'Edit Medical Report' : 'Add Medical Report'}
+          title={props.navigation.state.params?.edit ? 'Edit Medical Report' : 'Add Medical Report'}
           allowBack={true}
           navigation={props.navigation}
         />
@@ -152,7 +156,7 @@ export const AddEditMedicalReportForm = props => {
             <TouchableOpacity style={styles.uploadBtn} onPress={() => handleUploadDocument()}>
               <Text style={styles.btnTxt}>Upload</Text>
             </TouchableOpacity>
-            {file?.[0]?.name != null || props.navigation.state.params.edit ?
+            {file?.[0]?.name != null || props.navigation.state.params?.edit ?
               <Text style={{ marginTop: 10 }}>{file.attachmentName === undefined ? file?.[0]?.name : file.attachmentName}</Text> : null
             }
 
