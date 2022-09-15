@@ -40,19 +40,19 @@ import {
     const [loadingSave, setLoadingSave] = useState(false);
   
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params.item?.taskDate?.substring(0,10));
-    const [item,setItem]= useState(props.navigation.state.params.item)
+    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params?.item?.taskDate?.substring(0,10));
+    const [item,setItem]= useState(props.navigation.state.params?.item)
   
     const [fields, setFields] = useState({
       alertId: 0,
       assignedForId: props.navigation.getParam('seniorId', null),
       category: 'Caretaker', // "Supervisor",
-      taskDate: props.navigation.state.params.item?.taskDate, //yyyy/MM/dd HH:mm
-      taskDescription: props.navigation.state.params.item?.taskDescription,
-      taskPriority: props.navigation.state.params.item?.taskPriority,
+      taskDate: props.navigation.state.params?.item?.taskDate, //yyyy/MM/dd HH:mm
+      taskDescription: props.navigation.state.params?.item?.taskDescription,
+      taskPriority: props.navigation.state.params?.item?.taskPriority,
       taskName: '',
       taskStatus: 0,
-      reminderOption: props.navigation.state.params.item?.reminderOption,
+      reminderOption: props.navigation.state.params?.item?.reminderOption,
       userId: null, //: StorageUtils.getValue(AppConstants.SP.USER_ID),
     });
   
@@ -102,7 +102,7 @@ import {
     };
   
     const onSave = async () => {
-    let taskId=  props.navigation.state.params.item?.id
+    let taskId=  props.navigation.state.params?.item?.id
       if (!validateInput()) return;
       setLoadingSave(true);
       // const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
@@ -206,7 +206,7 @@ import {
                 placeholderTextColor="black"
                 onChange={text => updateField('taskDescription', text)}
               />
-  {console.log('props.navigation.state.params.item',props.navigation.state.params.item?.taskDescription)}
+  {console.log('props.navigation.state.params.item',props.navigation.state.params?.item?.taskDescription)}
               <Text style={styles.label}>Date *</Text>
               <View>
                 <TouchableOpacity onPress={showDatePicker}>

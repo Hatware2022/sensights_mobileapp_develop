@@ -231,6 +231,8 @@ PODS:
     - React-Core
   - react-native-contacts (6.0.5):
     - React-Core
+  - react-native-document-picker (8.1.1):
+    - React-Core
   - react-native-geocoder (0.5.0):
     - React
   - react-native-google-maps (0.27.1):
@@ -407,6 +409,7 @@ DEPENDENCIES:
   - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-ble-plx (from `../node_modules/react-native-ble-plx`)
   - react-native-contacts (from `../node_modules/react-native-contacts`)
+  - react-native-document-picker (from `../node_modules/react-native-document-picker`)
   - react-native-geocoder (from `../node_modules/react-native-geocoder`)
   - react-native-google-maps (from `../node_modules/react-native-maps`)
   - react-native-image-picker (from `../node_modules/react-native-image-picker`)
@@ -517,6 +520,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-ble-plx"
   react-native-contacts:
     :path: "../node_modules/react-native-contacts"
+  react-native-document-picker:
+    :path: "../node_modules/react-native-document-picker"
   react-native-geocoder:
     :path: "../node_modules/react-native-geocoder"
   react-native-google-maps:
@@ -632,6 +637,7 @@ SPEC CHECKSUMS:
   react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-ble-plx: f10240444452dfb2d2a13a0e4f58d7783e92d76e
   react-native-contacts: 931baebf460125c5a7bbce1c4521a96c69795123
+  react-native-document-picker: f68191637788994baed5f57d12994aa32cf8bf88
   react-native-geocoder: 757427682892bb256f3b3745858cc90eba148a8e
   react-native-google-maps: 0a989abda71059db2caa98b9dacca7a8f38a47d0
   react-native-image-picker: cd420f97f6ed6ff74fc4686d27dbcfdbd051db91

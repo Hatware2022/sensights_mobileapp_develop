@@ -43,14 +43,11 @@ export const AddEditMedicalReportForm = props => {
   const [careGiverList, setCareGiverList] = useState(null)
   const [file, setFile] = useState(props.navigation.state.params?.item)
   const [selectedCareGiver, setSelectedCareGiver] = useState('')
-  const [paitentId,setPaitientID]=useState('')
   const [loadingSave, setLoadingSave] = useState(false);
 
 
-  useEffect(async() => {
+  useEffect(() => {
     getListFromServer()
-    const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
-    setPaitientID(userId)
   }, []);
 
   const getListFromServer = async () => {
@@ -117,11 +114,7 @@ export const AddEditMedicalReportForm = props => {
 
   const handleAddMedicalReport = async () => {
     let body = {
-      AttachmentPath:'',
-      PatientId:paitentId,
-      Message:message,
-      Comments:message,
-      MedicalAttachment:''
+
     }
     try {
       await axios

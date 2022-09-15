@@ -74,9 +74,9 @@ export class ResetPassword extends Component {
     }
 
     var body = {
-      // code: this.state.code,
+      code: this.props.navigation.state.params?.code,
       confirmPassword: this.state.confirmPassword,
-      email: this.state.email,
+      email: this.props.navigation.state.params?.email,
       password: this.state.password,
     };
     
@@ -107,7 +107,7 @@ export class ResetPassword extends Component {
           }
         })
         .catch(err => {
-          // alert(JSON.stringify(err))
+          console.log('err : ',err)
           this.setState({spinner: false});
           this.showError();
         });
@@ -148,7 +148,7 @@ export class ResetPassword extends Component {
             An email confirmation code has been sent to
           </Text> */}
           <Text style={styles.mailtitle}>
-            {this.props.navigation.state.params.email}
+            {this.props.navigation.state.params?.email}
           </Text>
           <View style={styles.passwordContainerLogin}>
             <TextInput

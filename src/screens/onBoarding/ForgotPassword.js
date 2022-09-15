@@ -61,9 +61,13 @@ import {showMessage} from '../../utils';
 
   function handleDeepLink(event) {
     let url = event.url
-    let splitedArr = url.split("/resetpassword?token=");
-    splitedArr && splitedArr.length > 0 &&      props.navigation.navigate('ResetPassword', {
-      email: email,
+    let queryparams = url.split('?')[1];
+    let params = queryparams.split('&');
+    let code = params[1].replace("code=","")
+    let e = params[2].replace("email=","")
+    params && params.length > 0 &&      props.navigation.navigate('ResetPassword', {
+      email: e,
+      code: code,
     });
   }  
 

@@ -5,6 +5,7 @@ const baseURL = `${API_URL}/api/`;
 export const api = {
   login: baseURL + 'Accounts/Login',
   confirmPasswordForRegistration: baseURL + 'Accounts/ConfirmEmail',
+  confirmPasswordForRegistrationTest: baseURL + 'Accounts/ConfirmEmailTest',
   geofence: baseURL + 'Seniors/GeoFence',
   seniors: baseURL + 'Seniors/My',
   seniorLocations: baseURL + 'Locations/',

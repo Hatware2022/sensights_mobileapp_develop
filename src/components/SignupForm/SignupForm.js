@@ -73,10 +73,29 @@ export const SignupForm = props => {
 
   function handleDeepLink(event) {
     let url = event.url
-    let splitedArr = url.split("code=");
-    splitedArr && splitedArr.length > 0 && setEmailSend(true) || setEmailVerified(true)
+    let queryparams = url.split('?')[1];
+    let params = queryparams.split('&');
+    verificationLink(params[0],params[1])
   }  
 
+  async function verificationLink(token,code) {
+    try {
+       axios.get(`${api.confirmPasswordForRegistrationTest}?${token}&${code}`)
+        .then(res => {
+          if (res?.data != null) {
+            setEmailSend(true) || setEmailVerified(true)          
+          }
+        })
+        .catch(err => {
+          console.log('err : ',err)
+          // return false;
+        });
+    } catch (err) {
+      return false;
+    }
+    setEmailSend(true) || setEmailVerified(true)          
+  }
+ 
   const showError = error => {
     setTimeout(
       function() {
@@ -372,7 +391,8 @@ export const SignupForm = props => {
                   <Text style={styles.modalHeading}>{emailVerified ? 'Verified' : 'Email Sent'}</Text>
                   <Text style={styles.modalTxt}>{emailVerified ? 'Your Email has been confirmed. Please go back to login page.' : 'Please check your email for verification link'}</Text>
                 <View style={styles.modalBtn}>
-                 <Button title='OK' onPress={()=>emailVerified ? setEmailVerified(false) || setEmailSend(false) || props.navigation.navigate('Login')  : setEmailSend(false)} />
+                 <Button title='OK' onPress={()=>emailVerified ? 
+                  (props.navigation.navigate('Login') && setEmailVerified(false) )|| setEmailSend(false)  : setEmailSend(false)} />
                  </View>
               </View>
         </Modal>
