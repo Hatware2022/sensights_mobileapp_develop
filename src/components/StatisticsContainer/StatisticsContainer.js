@@ -799,24 +799,25 @@ export const StatisticsContainer = props => {
         avatar={icons.stats.hrv}
         title={theme.strings.stress_level}
         onPress={
-          () => {}
-          // navigation.navigate('StatsDetails', {
-          //   title: 'Stress Level',
-          //   //  deviceSettings: 'heartRate',
-          //   seniorId,
-          //   timeOffset,
-          //   subHeading: 'DAILY AVERAGE',
-          //   // unit: 'Ab',
-          //   gradiantColors: ['rgba(249, 98, 37, 0.610205)', '#EB5757'],
-          //   headerColor: '#EB5757',
-          //   infoType: 'stress_level',
-          //   statsDate,
-          //   average: [stressLevel, stressLevel],
-          //   lastValue: [stressLevel, stressLevel],
-          //   lastValueDate: [stressLevel, stressLevel],
-          //   selectedDeviceTag: stressLevelDeviceTag,
-          //   bg_color: stressLevelTrafficColor,
-          // })
+          () => 
+          // {}
+          navigation.navigate('StatsDetails', {
+            title: 'Stress Level',
+            //  deviceSettings: 'heartRate',
+            seniorId,
+            timeOffset,
+            subHeading: 'DAILY AVERAGE',
+            // unit: 'Ab',
+            gradiantColors: ['rgba(249, 98, 37, 0.610205)', '#EB5757'],
+            headerColor: '#EB5757',
+            infoType: 'stress_level',
+            statsDate,
+            average: [stressLevel, stressLevel],
+            lastValue: [stressLevel, stressLevel],
+            lastValueDate: [stressLevel, stressLevel],
+            selectedDeviceTag: stressLevelDeviceTag,
+            bg_color: stressLevelTrafficColor,
+          })
         }>
         {/* <Text style={{ fontSize: 35, fontWeight: "bold", textAlign: "center" }}>{hr}<Text style={{ fontSize: 14, fontWeight: "normal" }}> BPM</Text></Text> */}
         <Text style={{fontSize: 18, fontWeight: 'bold', textAlign: 'center'}}>
@@ -857,6 +858,19 @@ export const StatisticsContainer = props => {
   const respiratoryLevel = data => {
     //  debugger;
     // if (!defaultUnits) return null;
+    // const {
+    //   stressLevel,
+    //   stressLevelDate,
+    //   stressLevelDeviceId,
+    //   stressLevelDeviceTag,
+    //   stressLevelTrafficColor,
+    //   respiratoryRate,
+    //   respiratoryRateDate,
+    //   respiratoryRateDeviceId,
+    //   respiratoryRateDeviceTag,
+    //   respiratoryRateTrafficColor,
+    // } = data;
+    console.log('ijijijijij',data)
     const {
       //5
       respiratoryRate,
@@ -874,24 +888,24 @@ export const StatisticsContainer = props => {
         onPress={
           () =>
             // navigation.navigate("StatisticsScreen", {
-            {}
-          // navigation.navigate('StatsDetails', {
-          //   title: 'Stress Level',
-          //   //  deviceSettings: 'heartRate',
-          //   seniorId,
-          //   timeOffset,
-          //   subHeading: 'DAILY AVERAGE',
-          //   // unit: 'Ab',
-          //   gradiantColors: ['rgba(249, 98, 37, 0.610205)', '#EB5757'],
-          //   headerColor: '#EB5757',
-          //   infoType: 'stress_level',
-          //   statsDate,
-          //   average: [stressLevel, stressLevel],
-          //   lastValue: [stressLevel, stressLevel],
-          //   lastValueDate: [stressLevel, stressLevel],
-          //   selectedDeviceTag: stressLevelDeviceTag,
-          //   bg_color: stressLevelTrafficColor,
-          // })
+            // {}
+          navigation.navigate('StatsDetails', {
+            title: 'Respiratory Level',
+            //  deviceSettings: 'heartRate',
+            seniorId,
+            timeOffset,
+            subHeading: 'DAILY AVERAGE',
+            // unit: 'Ab',
+            gradiantColors: ['rgba(249, 98, 37, 0.610205)', '#EB5757'],
+            headerColor: '#EB5757',
+            infoType: 'respiratory_rate',
+            statsDate,
+            average: [respiratoryRate, respiratoryRate],
+            lastValue: [respiratoryRate, respiratoryRate],
+            lastValueDate: [respiratoryRateDate, respiratoryRateDate],
+            selectedDeviceTag: respiratoryRateDeviceTag,
+            bg_color: respiratoryRateTrafficColor,
+          })
         }>
         {/* <Text style={{ fontSize: 35, fontWeight: "bold", textAlign: "center" }}>{hr}<Text style={{ fontSize: 14, fontWeight: "normal" }}> BPM</Text></Text> */}
         <Text style={{fontSize: 35, fontWeight: 'bold', textAlign: 'center'}}>

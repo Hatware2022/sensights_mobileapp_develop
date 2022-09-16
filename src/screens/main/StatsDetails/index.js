@@ -472,6 +472,7 @@ export class StatsDetails extends Component {
     if (this.infoType == 'weight') icon = icons.stats.weightx90;
     if (this.infoType == 'falls') icon = icons.stats.fallx90;
     if (this.infoType == 'stress_level') icon = icons.stats.fallx90;
+    if (this.infoType == 'respiratory_rate') icon = icons.stats.hrvx90;
     let timeObj = null;
     if (this.infoType == 'sleep' && lastValue) {
       // timeObj = Utils.minToHours(lastValue, true);
