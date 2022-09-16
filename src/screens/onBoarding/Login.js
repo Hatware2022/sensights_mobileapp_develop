@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   View,
   Modal,
+  Button,
 } from 'react-native';
 import {NavigationActions, StackActions} from 'react-navigation';
 import React, {Component} from 'react';
@@ -42,6 +43,9 @@ export class Login extends Component {
       userId: '',
       token: '',
       userData: '',
+      emailSend: this.props.navigation.state.params?.emailSend ? true : false,
+      emailVerified: this.props.navigation.state.params?.emailVerified ? true : false,
+      showModal: false
     };
   }
 
@@ -395,6 +399,22 @@ export class Login extends Component {
                 <Text style={styles.in_app_disclosure}>v {VERSION}</Text>
               </View>
             </View>
+            <Modal
+          animationType="slide"
+          transparent={true}
+          visible={this.state.emailSend}
+          onRequestClose={() => this.setState({ showModal:false})}>
+              <View style={styles.card}>
+                  <Image source={require('../../assets/images/tick.png')} style={styles.modalImg}/>
+                  <Text style={styles.modalHeading}>{this.state.emailVerified ? 'Verified' : 'Email Sent'}</Text>
+                  <Text style={styles.modalTxt}>{this.state.emailVerified ? 'Your Email has been confirmed. Please go back to login page.' : 'Please check your email for verification link'}</Text>
+                <View style={styles.modalBtn}>
+                 <Button title='OK' onPress={()=>this.state.emailVerified ? 
+                  (this.props.navigation.navigate('Login') && this.setState({emailVerified:false}))
+                  || this.setState({emailSend:false}) : this.setState({emailSend:false})} />
+                 </View>
+              </View>
+        </Modal>
           </SafeAreaView>
         </ScrollView>
       </SafeAreaView>
@@ -514,5 +534,39 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.colorPrimary,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  card: {
+    width: '90%',
+    minHeight: 100,
+    backgroundColor: '#fff',
+    elevation: 5,
+    position: 'absolute',
+    alignSelf: 'center',
+    marginTop: '45%',
+    borderRadius: 10,
+  },
+  modalImg: {
+    width: 70, 
+    height: 70, 
+    alignSelf: 'center'
+  },
+  modalHeading: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: 22,
+    marginTop: 10,
+  },
+  modalTxt: {
+    alignSelf: 'center',
+    fontWeight: '500',
+    fontSize: 18,
+    marginTop: 10,
+    textAlign: 'center',
+  },
+  modalBtn: {
+    width: 70, 
+    alignSelf: 'center', 
+    marginTop: 30, 
+    marginBottom: 10
   },
 });

@@ -23,6 +23,7 @@ export const api = {
   updateTaskStatus: baseURL + 'SeniorCaregiverTask/Status',
   assignTasks: baseURL + 'SeniorCaregiverTask/Assigned/Tasks?userTypeEnum={2}',
   forgotPassword: `${baseURL}Accounts/ForgotPasswordTest`,
+  appleForgotPassword: `${baseURL}Accounts/AppleForgotPassword`,
   resetPassword: `${baseURL}Accounts/ResetPassword`,
   ChangePassword: baseURL + 'Accounts/ChangePassword',
   activityScore: baseURL + 'Seniors/Stats/ActivityScore/LastWeek',

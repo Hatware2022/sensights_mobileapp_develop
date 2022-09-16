@@ -1,7 +1,7 @@
 import {AppConstants, StorageUtils, showMessage} from './src/utils';
 import {AppContainer, api, theme} from './src';
-import {Platform, StatusBar, Text, TouchableOpacity, View} from 'react-native';
-import React, {Component} from 'react';
+import {Platform, StatusBar, Text, TouchableOpacity, View, Linking} from 'react-native';
+import React, {useEffect,useRef,useState} from 'react';
 import {AlertHelper} from './src/components';
 import RNDialog from 'react-native-dialog';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -39,52 +39,101 @@ Pushy.setNotificationListener(async data => {
 // Set pushy Notification Icon
 if (Platform.OS === 'android') Pushy.setNotificationIcon('ic_launcher');
 
-export default class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      visible: false,
-      loading: false,
-      alertId: '',
-      inviteId: '',
-      inviteTitle: '',
-      inviteDescription: '',
-      visibleUpdate: false,
-      msg: 'Hello world',
-    };
+// export default class App extends Component {
+  export const App = props => {
+    const[visible,setVisible]=useState(false)
+    const[loading,setLoading]=useState(false)
+    const[alertId,setAlertId]=useState('')
+    const[inviteId,setInviteId]=useState('')
+    const[inviteTitle,setInviteTitle]=useState('')
+    const[inviteDescription,setInviteDescription]=useState('')
+    const[visibleUpdate,setVisibleUpdate]=useState(false)
+    const[msg,setMsg]=useState('Hello world')
 
     AuthService.init();
-  }
+    let navigator = useRef();
 
-  async componentDidMount() {
-    // Start the Pushy service
-    axiosinterceptor();
-    setTimeout(() => {
-      Pushy.listen();
-    }, 6000);
 
-    await this.initPushy()
-      .then(r => {
-        // Snackbar.show({ text: `Notification Token Generated`, duration: Snackbar.LENGTH_SHORT, });
-      })
-      .catch(err => {
-        Snackbar.show({
-          text: `Unexected Error while Generating Notification token`,
-          duration: Snackbar.LENGTH_SHORT,
+
+
+   const handleDeepLink = (event) => {
+        let url = event.url
+        let resetPasswordParams = url.split('resetpassword');
+        let signupParams = url.split('confirmation');
+        let queryparams = url.split('?')[1];
+        let params = queryparams.split('&');
+      if(resetPasswordParams && resetPasswordParams.length > 1){
+        let code = params[1].replace("code=","")
+        let email = params[2].replace("email=","")
+        navigator &&
+        navigator.dispatch(
+          NavigationActions.navigate({routeName: 'ResetPassword',params:{
+          email: email,
+          code: code,
+          }}),
+        );
+      }
+      if(signupParams && signupParams.length > 1){
+        console.log('signupParams ; ',signupParams)
+        verificationLink(params[0],params[1])
+      }
+  }  
+
+  async function verificationLink(token,code) {
+    try {
+       axios.get(`${api.confirmPasswordForRegistrationTest}?${token}&${code}`)
+        .then(res => {
+          if (res?.data != null) {   
+          }
+        })
+        .catch(err => {
+          console.log('err : ',err)
+          // return false;
         });
-      });
-
-    PushNotificationIOS.addEventListener(
-      'notification',
-      this.onLocalNotification,
-    );
-
-    this.getPermissions();
+    } catch (err) {
+      return false;
+    }
+    navigator &&
+    navigator.dispatch(
+      NavigationActions.navigate({routeName: 'Login',params:{
+        emailSend: true,
+        emailVerified: true,
+      }}));
   }
+
+  useEffect(() => {
+    Linking.addEventListener("url", handleDeepLink);
+        // Start the Pushy service
+        axiosinterceptor();
+        setTimeout(() => {
+          Pushy.listen();
+        }, 6000);
+    
+         initPushy()
+          .then(r => {
+            // Snackbar.show({ text: `Notification Token Generated`, duration: Snackbar.LENGTH_SHORT, });
+          })
+          .catch(err => {
+            Snackbar.show({
+              text: `Unexected Error while Generating Notification token`,
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          });
+    
+        PushNotificationIOS.addEventListener(
+          'notification',
+           onLocalNotification,
+        );
+    
+         getPermissions();
+    return () => {
+      Linking.removeEventListener("url", handleDeepLink);
+    }; 
+  }, []);
+
 
   // update senior location on pushy notification
-
-  postCurrentLocation = async (latitude, longitude) => {
+  const postCurrentLocation = async (latitude, longitude) => {
     try {
       await axios
         .post(api.seniorLocations, {
@@ -96,10 +145,11 @@ export default class App extends Component {
         .catch(err => {});
     } catch (err) {}
   };
-  getLocation = async () => {
+
+  const getLocation = async () => {
     return BackgroundGeolocation.getCurrentPosition({
       timeout: 30, // 30 second timeout to fetch location
-      persist: true, // Defaults to state.enabled
+      persist: true, // Defaults to  enabled
       maximumAge: 5000, // Accept the last-known-location if not older than 5000 ms.
       desiredAccuracy: 10, // Try to fetch a location with an accuracy of `10` meters.
       samples: 3, // How many location samples to attempt.
@@ -111,36 +161,38 @@ export default class App extends Component {
       return currentlocation;
     });
   };
-  updateLocationNow = async () => {
-    // this.setState({spinner: true});
-    const currentLocation = await this.getLocation();
+
+  const updateLocationNow = async () => {
+    const currentLocation = await  getLocation();
     const lati = currentLocation['coords'].latitude;
     const longi = currentLocation['coords'].longitude;
-    this.postCurrentLocation(lati, longi);
+     postCurrentLocation(lati, longi);
   };
-  async getPermissions() {
+
+  async function getPermissions() {
     const granted = await grantAllPermissions();
     return granted;
   }
-  notificationNavigation = () => {
+
+  const notificationNavigation = () => {
     // call navigate for AppNavigator here:
-    this.navigator &&
-      this.navigator.dispatch(
+    navigator &&
+      navigator.dispatch(
         NavigationActions.navigate({routeName: 'AlertsScreen'}),
       );
   };
 
-  initPushy = async props => {
+  const initPushy = async props => {
     // Read click on pushy notification
     Pushy.setNotificationClickListener(async data => {
       // Display basic alert
 
       const parseData = JSON.parse(data.message);
       if (parseData?.AlertTypeId == '18') {
-        this.updateLocationNow();
+        updateLocationNow();
       }
 
-      this.notificationNavigation();
+      notificationNavigation();
       var payload = false;
       if (data.message) {
         try {
@@ -153,7 +205,7 @@ export default class App extends Component {
 
       if (message && title) {
         if (InviteId && title.startsWith('Added By')) {
-          this.showDialog(title, message, payload);
+          showDialog(title, message, payload);
         }
       }
     });
@@ -174,21 +226,20 @@ export default class App extends Component {
     });
   };
 
-  showDialog = (Title, Body, {InviteId, AlertId}) => {
-    this.setState({
-      visible: true,
-      inviteId: InviteId,
-      alertId: AlertId,
-      inviteTitle: Title,
-      inviteDescription: Body,
-    });
+ const showDialog = (Title, Body, {InviteId, AlertId}) => {
+      setVisible(true)
+      setInviteId(InviteId)
+      setAlertId(AlertId)
+      setInviteTitle(Title)
+      setInviteDescription(Body)
   };
 
-  onAction = async type => {
-    this.setState({loading: true, visible: false});
-    try {
+  const onAction = async type => {
+     setLoading(true) 
+     setVisible(false)
+     try {
       const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
-      const url = `${api.invites}/${this.state.inviteId}/${type}`;
+      const url = `${api.invites}/${  inviteId}/${type}`;
 
       const response = await fetch(url, {
         method: 'put',
@@ -202,26 +253,26 @@ export default class App extends Component {
       if (response.ok) {
         const json = await response.json();
         if (json) {
-          this.acknowledgeAlert(token);
+           acknowledgeAlert(token);
           showMessage(`Request ${type === 'Accept' ? 'accepted' : 'rejected'}`);
         }
       } else {
-        this.setState({loading: false});
+         setLoading(false) 
         showMessage(
           `Error in ${type === 'Accept' ? 'accepting' : 'rejecting'} invite`,
         );
       }
     } catch (error) {
-      this.setState({loading: false});
+      setLoading(false) 
       showMessage(
         `Error in ${type === 'Accept' ? 'accepting' : 'rejecting'} invite`,
       );
     }
   };
 
-  acknowledgeAlert = async token => {
+ const acknowledgeAlert = async token => {
     try {
-      const url = `${api.alerts}/${this.state.alertId}/Acknowledge`;
+      const url = `${api.alerts}/${alertId}/Acknowledge`;
       const response = await fetch(url, {
         method: 'put',
         headers: {
@@ -233,24 +284,24 @@ export default class App extends Component {
       if (response.ok) {
         const json = await response.json();
         if (json) {
-          this.setState({loading: false});
+          setLoading(false) 
         }
       } else {
-        this.setState({loading: false});
+        setLoading(false) 
         showMessage(`Error in acknowledging alert`);
       }
     } catch (error) {
-      this.setState({loading: false});
+      setLoading(false) 
       showMessage(`Error in acknowledging alert`);
     }
   };
 
-  checkVersion = async () => {
+ const checkVersion = async () => {
     fetch(api.version)
       .then(response => response.json())
       .then(result => {
         if (result && result.versionNumber !== VERSION) {
-          this.setState({visibleUpdate: true});
+           setVisibleUpdate(true)
         }
       })
       .catch(e => {
@@ -258,14 +309,13 @@ export default class App extends Component {
       });
   };
 
-  onLocalNotification = notification => {
-    this.notificationNavigation();
+ const onLocalNotification = notification => {
+    notificationNavigation();
   };
 
-  render() {
     return (
       <View style={{flex: 1}}>
-        <Spinner visible={this.state.loading} />
+        <Spinner visible={ loading} />
         <StatusBar
           barStyle="light-content"
           backgroundColor={theme.colors.colorPrimary}
@@ -273,27 +323,27 @@ export default class App extends Component {
         <View style={{flex: 1}}>
           <AppContainer
             ref={nav => {
-              this.navigator = nav;
+              navigator = nav;
             }}
           />
         </View>
         <AlertHelper />
         {/* Request Dialog */}
         <RNDialog.Container
-          visible={this.state.visible}
-          style={this.state.visible ? {} : {height: 0}}>
-          <RNDialog.Title>{this.state.inviteTitle}</RNDialog.Title>
+          visible={  visible}
+          style={  visible ? {} : {height: 0}}>
+          <RNDialog.Title>{  inviteTitle}</RNDialog.Title>
           <RNDialog.Description>
-            {this.state.inviteDescription}
+            {  inviteDescription}
           </RNDialog.Description>
           <RNDialog.Button
             label={'Reject'}
-            onPress={() => this.onAction('Reject')}
+            onPress={() =>  onAction('Reject')}
             bold
           />
           <RNDialog.Button
             label={'Approve'}
-            onPress={() => this.onAction('Accept')}
+            onPress={() =>  onAction('Accept')}
             bold
           />
           <View
@@ -302,7 +352,7 @@ export default class App extends Component {
               justifyContent: 'center',
               marginBottom: 8,
             }}>
-            <TouchableOpacity onPress={() => this.setState({visible: false})}>
+            <TouchableOpacity onPress={() =>  setVisible(false)}>
               <Text
                 style={{
                   color: Platform.OS === 'ios' ? '#007ff9' : '#169689',
@@ -316,15 +366,15 @@ export default class App extends Component {
 
         {/* Update Dialog */}
         <RNDialog.Container
-          visible={this.state.visibleUpdate}
-          style={this.state.visibleUpdate ? {} : {height: 0}}>
+          visible={  visibleUpdate}
+          style={  visibleUpdate ? {} : {height: 0}}>
           <RNDialog.Title>Update</RNDialog.Title>
           <RNDialog.Description>
             Please update your app, A newer version is available.
           </RNDialog.Description>
           <RNDialog.Button
             label={'Cancel'}
-            onPress={() => this.setState({visibleUpdate: false})}
+            onPress={() => setVisibleUpdate(false)}
           />
         </RNDialog.Container>
 
@@ -333,5 +383,5 @@ export default class App extends Component {
         <Connecty />
       </View>
     );
-  }
 }
+

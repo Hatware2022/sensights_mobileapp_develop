@@ -610,16 +610,16 @@ export default class Connecty extends Component {
     });
 
     const _onSuccessLogin = r => {
-      console.log('========= _onSuccessLogin() =======', r);
+      console.log('========= home _onSuccessLogin() =======', r);
       // EventRegister.emit('onLoggedInToConnecty', { ...currentUser })
       this.setState({currentUser});
       this._setUpListeners();
     };
 
     const _onFailLogin = (error = {}) => {
-      console.log('========= _onFailLogin() =======', error);
+      console.log('========= home _onFailLogin() =======', error);
       try {
-        Alert.alert('Video Login Error!', error.info.errors.toString());
+        Alert.alert('Video Login Error!', error?.info?.errors.toString());
       } catch (err) {
         // alert(`Error.\n\n${JSON.stringify(error)}`);
       }

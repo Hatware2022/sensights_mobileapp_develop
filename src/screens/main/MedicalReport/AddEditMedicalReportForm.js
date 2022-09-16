@@ -114,17 +114,26 @@ export const AddEditMedicalReportForm = props => {
 
   const handleAddMedicalReport = async () => {
     let body = {
-
+      AttachmentPath: file[0].uri,
+      PatientId: 5450,
+      Message: message,
+      Comments: message,
+      MedicalAttachment: file[0]
     }
     try {
       await axios
-        .post(api.addMedicalReport, body)
+        .post(api.addMedicalReport, body,{
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
         .then(res => {
           if (res?.data != null) {
             alert('added succesfully')
           }
         })
         .catch(err => {
+          console.log('error : ',err);
           setTimeout(() => {
             Snackbar.show({
               text: err?.description,
@@ -182,7 +191,9 @@ export const AddEditMedicalReportForm = props => {
               showsVerticalScrollIndicator={false}
             />
 
-            <TouchableOpacity style={styles.addBtn}><Text style={styles.btnTxt}>Add</Text></TouchableOpacity>
+            <TouchableOpacity 
+            onPress={()=>handleAddMedicalReport()}
+            style={styles.addBtn}><Text style={styles.btnTxt}>Add</Text></TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>

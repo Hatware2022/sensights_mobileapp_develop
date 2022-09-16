@@ -64,38 +64,6 @@ export const SignupForm = props => {
     };
   }, [props]);
 
-  useEffect(() => {
-    Linking.addEventListener("url", handleDeepLink);
-    return () => {
-      Linking.removeEventListener("url", handleDeepLink);
-    };
-  }, []);
-
-  function handleDeepLink(event) {
-    let url = event.url
-    let queryparams = url.split('?')[1];
-    let params = queryparams.split('&');
-    verificationLink(params[0],params[1])
-  }  
-
-  async function verificationLink(token,code) {
-    try {
-       axios.get(`${api.confirmPasswordForRegistrationTest}?${token}&${code}`)
-        .then(res => {
-          if (res?.data != null) {
-            setEmailSend(true) || setEmailVerified(true)          
-          }
-        })
-        .catch(err => {
-          console.log('err : ',err)
-          // return false;
-        });
-    } catch (err) {
-      return false;
-    }
-    setEmailSend(true) || setEmailVerified(true)          
-  }
- 
   const showError = error => {
     setTimeout(
       function() {

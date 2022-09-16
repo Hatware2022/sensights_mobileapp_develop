@@ -8,7 +8,8 @@ import {
   Modal,
   Image,
   Button,
-  AsyncStorage
+  AsyncStorage,
+  Platform
 } from 'react-native';
 import React, {Component, useState,useEffect} from 'react'; 
 
@@ -51,26 +52,6 @@ import {showMessage} from '../../utils';
     };
   };
 
-  useEffect(() => {
-
-    Linking.addEventListener("url", handleDeepLink);
-    return () => {
-      Linking.removeEventListener("url", handleDeepLink);
-    }; 
-  }, []);
-
-  function handleDeepLink(event) {
-    let url = event.url
-    let queryparams = url.split('?')[1];
-    let params = queryparams.split('&');
-    let code = params[1].replace("code=","")
-    let e = params[2].replace("email=","")
-    params && params.length > 0 &&      props.navigation.navigate('ResetPassword', {
-      email: e,
-      code: code,
-    });
-  }  
-
  const handleChange = (name, value) => {
    setEmail(value)
    AsyncStorage.setItem('email',value)
@@ -92,7 +73,7 @@ import {showMessage} from '../../utils';
     try {
       setSpinner(true)
       await axios
-        .post(api.forgotPassword, body)
+        .post(Platform.OS === 'ios'? api.appleForgotPassword : api.forgotPassword, body)
         .then(res => {
           if (res?.data != null) {
             setSpinner(false)
