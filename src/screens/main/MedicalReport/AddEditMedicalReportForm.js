@@ -44,6 +44,7 @@ export const AddEditMedicalReportForm = props => {
   const [file, setFile] = useState(props.navigation.state.params?.item)
   const [selectedCareGiver, setSelectedCareGiver] = useState('')
   const [loadingSave, setLoadingSave] = useState(false);
+  const userId =  StorageUtils.getValue(AppConstants.SP.USER_ID);
 
 
   useEffect(() => {
@@ -113,23 +114,26 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleAddMedicalReport = async () => {
-    let body = {
-      AttachmentPath: file[0].uri,
-      PatientId: 5450,
-      Message: message,
-      Comments: message,
-      MedicalAttachment: file[0]
-    }
+let formdata = new FormData();
+
+formdata.append("AttachmentPath", file[0].uri)
+formdata.append("PatientId", userId)
+formdata.append("Message", message)
+formdata.append("Comments", message)
+formdata.append("MedicalAttachment", file[0])
     try {
-      await axios
-        .post(api.addMedicalReport, body,{
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        })
+      let response = await axios({
+        url: api.addMedicalReport,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        data: formdata,
+      })
         .then(res => {
           if (res?.data != null) {
-            alert('added succesfully')
+            console.log('success',res)
+            // alert('added succesfully')
           }
         })
         .catch(err => {
@@ -142,6 +146,7 @@ export const AddEditMedicalReportForm = props => {
           }, 100);
         });
     } catch (err) {
+      console.log('89098909',err)
       showMessage('Network issue try again');
     }
   }
