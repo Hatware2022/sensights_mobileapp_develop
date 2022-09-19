@@ -29,7 +29,7 @@ import _ from 'lodash';
 import {canadaStates, usStates, otherState} from '../../utils/constants';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import React, {Component} from 'react';
-// import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 import Snackbar from 'react-native-snackbar';
 import Spinner from 'react-native-loading-spinner-overlay';
 import {GET_BRANCHES_AND_AGENTS} from '../../api';
@@ -577,19 +577,40 @@ export class EditProfile extends Component {
     return true;
   };
 
-  uploadPhoto = selectOption => {
+  uploadPhoto = async(selectOption) => {
     // const picker =
     //   selectOption === 'camera' ? launchCamera : launchImageLibrary;
-    // const options = {
-    //   title: 'Select Image',
-    //   allowsEditing: true,
-    //   maxWidth: 450,
-    //   maxHeight: 450,
-    //   storageOptions: {
-    //     skipBackup: true,
-    //   },
-    // };
-
+    const options = {
+      title: 'Select Image',
+      allowsEditing: true,
+      maxWidth: 450,
+      maxHeight: 450,
+      storageOptions: {
+        skipBackup: true,
+      },
+    };
+    if(selectOption === 'camera'){
+    const result = await launchCamera(options);
+    this.setState({modalVisible: false});
+            this.setState({
+          image: {
+            uri: result.assets[0].uri,
+            type: result.assets[0].type,
+            name: result.assets[0].fileName || 'profile.jpg',
+          },
+        });
+    }
+    else{
+      const result = await launchImageLibrary(options);
+      this.setState({modalVisible: false});
+      this.setState({
+        image: {
+          uri: result.assets[0].uri,
+          type: result.assets[0].type,
+          name: result.assets[0].fileName || 'profile.jpg',
+        },
+      });
+    }
     // picker(options, response => {
     //   this.setState({modalVisible: false});
     //   if (response.didCancel) {
