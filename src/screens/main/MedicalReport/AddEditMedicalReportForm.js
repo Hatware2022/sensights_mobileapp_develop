@@ -39,12 +39,12 @@ export const AddEditMedicalReportForm = props => {
   const name = props.navigation.getParam('name', null);
   const alert = props.navigation.getParam('alert', null);
 
-  const [message, setMessage] = useState(props.navigation.state.params?.item)
+  const [message, setMessage] = useState(props.navigation.state.params?.item?.message)
   const [careGiverList, setCareGiverList] = useState(null)
   const [file, setFile] = useState(props.navigation.state.params?.item)
   const [selectedCareGiver, setSelectedCareGiver] = useState('')
   const [loadingSave, setLoadingSave] = useState(false);
-  const userId =  StorageUtils.getValue(AppConstants.SP.USER_ID);
+
 
 
   useEffect(() => {
@@ -113,14 +113,62 @@ export const AddEditMedicalReportForm = props => {
     }
   }
 
+  const handleEditMedicalReport = async () => {
+    const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
+    let formdata = new FormData();
+    if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
+      formdata.append("PatientId", userId)
+      formdata.append("Message", message)
+      formdata.append("Comments", message)
+    }
+    else{
+    formdata.append("AttachmentPath", file?.[0]?.uri)
+    formdata.append("PatientId", userId)
+    formdata.append("Message", message)
+    formdata.append("Comments", message)
+    formdata.append("MedicalAttachment", file?.[0])
+    }
+
+        try {
+          let response = await axios({
+            url: `${api.addMedicalReport}/${props.navigation.state.params?.item?.id}`,
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            data: formdata,
+          })
+            .then(res => {
+              if (res?.data != null) {
+                console.log('Edit Successsuccess',res)
+                props.navigation.goBack()
+              }
+            })
+            .catch(err => {
+              console.log('error : ',err);
+              setTimeout(() => {
+                Snackbar.show({
+                  text: err?.description,
+                  duration: Snackbar.LENGTH_SHORT,
+                });
+              }, 100);
+            });
+        } catch (err) {
+          console.log('89098909',err)
+          showMessage('Network issue try again');
+        }
+  }
+
   const handleAddMedicalReport = async () => {
+    const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
+console.log('sadhui')
 let formdata = new FormData();
 
-formdata.append("AttachmentPath", file[0].uri)
+formdata.append("AttachmentPath", file?.[0].uri)
 formdata.append("PatientId", userId)
 formdata.append("Message", message)
 formdata.append("Comments", message)
-formdata.append("MedicalAttachment", file[0])
+formdata.append("MedicalAttachment", file?.[0])
     try {
       let response = await axios({
         url: api.addMedicalReport,
@@ -133,7 +181,7 @@ formdata.append("MedicalAttachment", file[0])
         .then(res => {
           if (res?.data != null) {
             console.log('success',res)
-            // alert('added succesfully')
+            props.navigation.goBack()
           }
         })
         .catch(err => {
@@ -197,8 +245,8 @@ formdata.append("MedicalAttachment", file[0])
             />
 
             <TouchableOpacity 
-            onPress={()=>handleAddMedicalReport()}
-            style={styles.addBtn}><Text style={styles.btnTxt}>Add</Text></TouchableOpacity>
+            onPress={()=>props.navigation.state.params?.edit ? handleEditMedicalReport() : handleAddMedicalReport()}
+            style={styles.addBtn}><Text style={styles.btnTxt}>{props.navigation.state.params?.edit ? 'Update' : 'Add'}</Text></TouchableOpacity>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -255,7 +303,7 @@ const styles = StyleSheet.create({
   },
   container: { flex: 1, backgroundColor: theme.colors.colorPrimary },
   uploadBtn: { width: 100, height: 35, backgroundColor: 'lightgrey', borderRadius: 5 },
-  btnTxt: { alignSelf: 'center', fontSize: 14, marginTop: 5 },
+  btnTxt: { alignSelf: 'center', fontSize: 14, marginTop: 7 },
   heading: { marginTop: 10, fontSize: 14, fontWeight: 'bold' },
   textinput: { width: '100%', height: 45, borderRadius: 5, paddingLeft: 10, borderColor: 'grey', borderWidth: 1, alignSelf: 'center', marginTop: 10 },
   addBtn: { width: 100, height: 35, backgroundColor: theme.colors.colorPrimary, borderRadius: 5, alignSelf: 'center', marginTop: 30 },
