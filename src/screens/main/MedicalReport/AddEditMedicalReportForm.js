@@ -120,7 +120,7 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleEditMedicalReport = async () => {
-    handlePermissionsMedicalReport()
+    handlePermissionsMedicalReport(props.navigation.state.params?.item?.id)
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     let formdata = new FormData();
     if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
@@ -148,7 +148,7 @@ export const AddEditMedicalReportForm = props => {
             .then(res => {
               if (res?.data != null) {
                 console.log('Edit Successsuccess',res)
-                props.navigation.goBack()
+                // props.navigation.goBack()
               }
             })
             .catch(err => {
@@ -167,8 +167,9 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleAddMedicalReport = async () => {
-    handlePermissionsMedicalReport()
+   
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
+    
 console.log('sadhui')
 let formdata = new FormData();
 
@@ -189,7 +190,8 @@ formdata.append("MedicalAttachment", file?.[0])
         .then(res => {
           if (res?.data != null) {
             console.log('success',res)
-            props.navigation.goBack()
+            handlePermissionsMedicalReport(res.data.id)
+            // props.navigation.goBack()
           }
         })
         .catch(err => {
@@ -207,7 +209,7 @@ formdata.append("MedicalAttachment", file?.[0])
     }
   }
 
-  const handlePermissionsMedicalReport = async () => {
+  const handlePermissionsMedicalReport = async (userIs) => {
     let list = []
     careGiverList.forEach((e,i)=>{
       if(e.checked){
@@ -216,18 +218,44 @@ formdata.append("MedicalAttachment", file?.[0])
     })
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
+
+    console.log('listtt',list)
+    console.log('iddd',props.navigation.state.params?.item?.id)
+    console.log('token',token)
+    console.log('urllll',`${api.addPermissionCareGiver}+"?Id="+${props.navigation.state.params?.item?.id}`)
     try {
-      let response = await axios.post(api.addPermissionCareGiver+"?Id="+userId,
-       {
+      let response = await axios({
+        url: `${api.addPermissionCareGiver}?Id=${userIs}`,
+        method: 'POST',
+        headers:{
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + token,
-      }, list
-      );
-      console.log('handlePermissionsMedicalReport : response ', response);
+        },
+        data: list,
+      });
+      console.log('response while Sending Password Reset Email', response);
+      props.navigation.goBack()
+     
     } catch (error) {
-      console.log('action error => ', error);
+      // setLoading(false)
+      console.log('Error while Sending Password Reset Email => ' + error);
+      // showToast(t('common:account_doesnot_exist'))
     }
+
+
+    // try {
+    //   let response = await axios.post(api.addPermissionCareGiver+"?Id="+userId,
+    //    {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     Authorization: 'Bearer ' + token,
+    //   }, list
+    //   );
+    //   console.log('handlePermissionsMedicalReport : response ', response);
+    // } catch (error) {
+    //   console.log('action error => ', error);
+    // }
     // try {
     //   let response = await axios({
     //     url: api.addPermissionCareGiver+"?Id="+userId,
