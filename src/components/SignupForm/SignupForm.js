@@ -174,7 +174,12 @@ export const SignupForm = props => {
         .post(Platform.OS === 'ios' ? api.signUpApple : api.signUp, body)
         .then(res => {
           if (res?.data != null) {
-            setEmailSend(true)
+            // setEmailSend(true)
+            setUserName('')
+            setEmail('')
+            setPassword('')
+            setVerifyPassword('')
+            props.navigation.navigate('Login',{emailSend:true})
           }
           setLoading(false);
         })
@@ -188,6 +193,7 @@ export const SignupForm = props => {
           }, 100);
         });
     } catch (err) {
+      console.log('signUp : err ',err)
       setLoading(false);
       Snackbar.show({
         text: 'Network Issue please try again',

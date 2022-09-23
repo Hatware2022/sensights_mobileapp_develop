@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { RTCView } from 'react-native-connectycube';
 import { CallService } from '../../services';
 import CallingLoader from './CallingLoader';
@@ -24,7 +24,6 @@ export default ({ streams }) => {
       </View>
     );
   };
-
   const streamsCount = streams.length;
   let RTCListView = null;
 
@@ -61,22 +60,22 @@ export default ({ streams }) => {
 
     case 3:
       RTCListView = (
-        <View style={styles.inColumn}>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+        <View style={[styles.inColumn,{marginTop: 40}]}>
+          <View style={{flexDirection:'row',height:'45%',}}>
+            <View style={[styles.videoGrid,{height:'98%',marginRight:5}]}>
               <RTCViewRendered
                 userId={streams[0].userId}
                 stream={streams[0].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={[styles.videoGrid,{height:'98%'}]}>
               <RTCViewRendered
                 userId={streams[1].userId}
                 stream={streams[1].stream}
               />
             </View>
           </View>
-          <View style={styles.videoGrid}>
+          <View style={[styles.videoGrid,{height:'45%',backgroundColor:'white'}]}>
             <RTCViewRendered
               userId={streams[2].userId}
               stream={streams[2].stream}
@@ -88,29 +87,29 @@ export default ({ streams }) => {
 
     case 4:
       RTCListView = (
-        <View style={styles.inColumn}>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+        <View style={[styles.inColumn,{marginTop: 40}]}>
+          <View style={{flexDirection:'row',height:'45%',}}>
+          <View style={[styles.videoGrid,{height:'98%',marginRight:5}]}>
               <RTCViewRendered
                 userId={streams[0].userId}
                 stream={streams[0].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={[styles.videoGrid,{height:'98%'}]}>
               <RTCViewRendered
                 userId={streams[1].userId}
                 stream={streams[1].stream}
               />
             </View>
           </View>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+          <View style={{flexDirection:'row',height:'45%',}}>
+          <View style={[styles.videoGrid,{height:'98%',marginRight:5}]}>
               <RTCViewRendered
                 userId={streams[2].userId}
                 stream={streams[2].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={[styles.videoGrid,{height:'98%'}]}>
               <RTCViewRendered
                 userId={streams[3].userId}
                 stream={streams[3].stream}
@@ -123,37 +122,37 @@ export default ({ streams }) => {
 
     case 5:
       RTCListView = (
-        <View style={styles.inColumn}>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+        <View style={[styles.inColumn,{marginTop: 20}]}>
+        <View style={styles.inRow5}>
+            <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[0].userId}
                 stream={streams[0].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[1].userId}
                 stream={streams[1].stream}
               />
             </View>
           </View>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+          <View style={styles.inRow5}>
+          <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[2].userId}
                 stream={streams[2].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[3].userId}
                 stream={streams[3].stream}
               />
             </View>
           </View>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+          <View style={{flexDirection:'row',flex:1}}>
+          <View style={[styles.videoGrid,{height:'98%',marginLeft:6}]}>
               <RTCViewRendered
                 userId={streams[4].userId}
                 stream={streams[4].stream}
@@ -165,43 +164,43 @@ export default ({ streams }) => {
       break;
     case 6:
       RTCListView = (
-        <View style={styles.inColumn}>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+        <View style={[styles.inColumn,{marginTop: 20}]}>
+        <View style={styles.inRow5}>
+        <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[0].userId}
                 stream={streams[0].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+            <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[1].userId}
                 stream={streams[1].stream}
               />
             </View>
           </View>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+          <View style={styles.inRow5}>
+          <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[2].userId}
                 stream={streams[2].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+          <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[3].userId}
                 stream={streams[3].stream}
               />
             </View>
           </View>
-          <View style={styles.inRow}>
-            <View style={styles.videoGrid}>
+          <View style={styles.inRow5}>
+          <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[4].userId}
                 stream={streams[4].stream}
               />
             </View>
-            <View style={styles.videoGrid}>
+          <View style={styles.videoGrid5}>
               <RTCViewRendered
                 userId={streams[5].userId}
                 stream={streams[5].stream}
@@ -354,9 +353,21 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
+  inRow5: {
+    flexDirection:'row',
+    flex:1,
+    justifyContent:'center'
+  },
   videoGrid: {
     backgroundColor: '#ffffff',
-    width: '50%',
-    padding: 5
+    width: '47%',
+    padding: 3,
+  },
+  videoGrid5: {
+    backgroundColor: '#ffffff',
+    width: '47%',
+    padding: 3,
+    height:'98%',
+    marginRight:5
   }
 });

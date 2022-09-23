@@ -18,6 +18,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import {getLocalProfile} from '../../utils/fetcher';
 import fonts from '../../theme/fonts';
 import colors from '../../theme/colors';
+import moment from 'moment';
 
 const activityDisplayArray = [
   {key: 'ActivityScore', title: 'Activity Score'},
@@ -43,9 +44,13 @@ const showvalue = (val, title) => {
       val > 59 ? Utils.minToHours(val, true) : {minutes: val, hours: 0};
 
     let hrs = null;
-    if (timeObj.hours > 0) hrs = timeObj.hours;
+    if (timeObj.hours > 0) {
+      hrs = timeObj.hours;
+    }
     let min = null;
-    if (timeObj.hours > 0 || timeObj.minutes > 0) min = timeObj.minutes || '0';
+    if (timeObj.hours > 0 || timeObj.minutes > 0) {
+      min = timeObj.minutes || '0';
+    }
     if (min > 0) {
       return hrs + '-' + min;
     } else {
@@ -95,7 +100,9 @@ const ListItem = ({data}) => {
         <View style={{marginLeft: 60, marginTop: 5}}>
           {activityDisplayArray.map((row, i) => {
             let itm = data.activity.find(o => o.title == row.key);
-            if (!itm) return null;
+            if (!itm) {
+              return null;
+            }
             let clr;
             if (itm.title === 'Falls') {
               clr = itm.value > 0 ? colors.red_shade_1 : colors.green_color;
@@ -130,6 +137,102 @@ const ListItem = ({data}) => {
               </Row>
             );
           })}
+          <Row style={{marginBottom: 5}}>
+            <Col valign="center">
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: 'lightgray',
+                  borderRadius: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.valueStyle} numberOfLines={1}>
+                  {Math.round(data?.totalTimeSpanThisMonth/60)}
+                </Text>
+              </View>
+            </Col>
+            <Col valign="center" style={{paddingHorizontal: 10}}>
+              <Text>---</Text>
+            </Col>
+            <Col valign="center" flex="auto">
+              <Text style={{fontSize: 14}}>Time Spent</Text>
+            </Col>
+          </Row>
+          <Row style={{marginBottom: 5}}>
+            <Col valign="center">
+              <View
+                style={{
+                  width: 40,
+                  height: 40,
+                  backgroundColor: 'lightgray',
+                  borderRadius: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text style={styles.valueStyle} numberOfLines={1}>
+                  {data?.noOfReadingsThisMonth}
+                </Text>
+              </View>
+            </Col>
+            <Col valign="center" style={{paddingHorizontal: 10}}>
+              <Text>---</Text>
+            </Col>
+            <Col valign="center" flex="auto">
+              <Text style={{fontSize: 14}}>Reading Count</Text>
+            </Col>
+          </Row>
+          <Row style={{marginBottom: 5}}>
+            <Col valign="center">
+              <View
+                style={{
+                  // width: 40,
+                  height: 40,
+                  // backgroundColor: 'gray',
+                  // borderRadius: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[styles.valueStyle, {color: '#000'}]}
+                  numberOfLines={1}>
+                  {moment(data?.billingDate).format('MM/DD/YYYY')}
+                </Text>
+              </View>
+            </Col>
+            <Col valign="center" style={{paddingHorizontal: 10}}>
+              <Text>---</Text>
+            </Col>
+            <Col valign="center" flex="auto">
+              <Text style={{fontSize: 14}}>Billing Date</Text>
+            </Col>
+          </Row>
+          <Row style={{marginBottom: 5}}>
+            <Col valign="center">
+              <View
+                style={{
+                  // width: 40,
+                  height: 40,
+                  // backgroundColor: 'gray',
+                  // borderRadius: 20,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={[styles.valueStyle, {color: '#000'}]}
+                  numberOfLines={1}>
+                  {moment(data?.updatedDate).format('MM/DD/YYYY')}
+                </Text>
+              </View>
+            </Col>
+            <Col valign="center" style={{paddingHorizontal: 10}}>
+              <Text>---</Text>
+            </Col>
+            <Col valign="center" flex="auto">
+              <Text style={{fontSize: 14}}>Updated At</Text>
+            </Col>
+          </Row>
           {/* {data.activity}
             itm.title==''
                 <Row key={i} style={{ marginBottom: 5 }}>
@@ -164,8 +267,9 @@ export class PatientOverviewList extends Component {
     sendRequest({uri, method: 'get'}).then(results => {
       if (results && results.errors) {
         let errString = '';
-        for (let a in results.errors)
+        for (let a in results.errors) {
           errString += `${a} = ${results.errors[a]}, `;
+        }
 
         this.setState({fatalError: errString, busy: false});
       }
@@ -248,6 +352,15 @@ export class PatientOverviewList extends Component {
                   </Row>
                 );
               })}
+                  <Text
+                style={{
+                  fontSize: 16,
+                  padding: 10,
+                  color: '#000',
+                  textAlign: 'center',
+                }}>
+              Patient's current billing cycle, Time spent and sleep in minutes
+              </Text>
           </KeyboardAwareScrollView>
         </View>
       </View>

@@ -872,7 +872,7 @@ export class StatsDetails extends Component {
                   </>
                 )}
 
-              {this.role !== 'caretaker' && this.infoType !== 'stress_level' && (
+              {this.role !== 'caretaker' && (
                 <>
                   <TouchableOpacity
                     onPress={() =>

@@ -43,10 +43,24 @@ export class Login extends Component {
       userId: '',
       token: '',
       userData: '',
-      emailSend: this.props.navigation.state.params?.emailSend ? true : false,
+      emailSend: this.props?.navigation?.state?.params?.emailSend ? true : false,
       emailVerified: this.props.navigation.state.params?.emailVerified ? true : false,
       showModal: false
     };
+  }
+
+  componentDidMount(){
+    console.log("componentDidMount : ",this.props.navigation.state.params?.emailSend)
+    if(this.props.navigation.state.params?.emailSend){
+      this.setState({
+        email:'',
+        password:'',
+        emailSend: true
+      },()=>{
+        this.setState({emailSend: true})
+        console.log('nextProps : ',this.state.emailSend)
+      })
+    }
   }
 
   onChangeText = value => {
@@ -408,7 +422,7 @@ export class Login extends Component {
                   <Image source={require('../../assets/images/tick.png')} style={styles.modalImg}/>
                   <Text style={styles.modalHeading}>{this.state.emailVerified ? 'Verified' : 'Email Sent'}</Text>
                   <Text style={styles.modalTxt}>{this.state.emailVerified ? 'Your Email has been confirmed. Please go back to login page.' : 'Please check your email for verification link'}</Text>
-                <View style={styles.modalBtn}>
+                <View style={styles.modalBtnBlack}>
                  <Button title='OK' onPress={()=>this.state.emailVerified ? 
                   (this.props.navigation.navigate('Login') && this.setState({emailVerified:false}))
                   || this.setState({emailSend:false}) : this.setState({emailSend:false})} />
@@ -563,7 +577,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     textAlign: 'center',
   },
-  modalBtn: {
+  modalBtnBlack: {
     width: 70, 
     alignSelf: 'center', 
     marginTop: 30, 

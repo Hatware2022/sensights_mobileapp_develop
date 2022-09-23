@@ -803,7 +803,7 @@ export const StatisticsContainer = props => {
           // {}
           navigation.navigate('StatsDetails', {
             title: 'Stress Level',
-            //  deviceSettings: 'heartRate',
+             deviceSettings: 'heartRate',
             seniorId,
             timeOffset,
             subHeading: 'DAILY AVERAGE',
@@ -870,7 +870,7 @@ export const StatisticsContainer = props => {
     //   respiratoryRateDeviceTag,
     //   respiratoryRateTrafficColor,
     // } = data;
-    console.log('ijijijijij',data)
+    // console.log('ijijijijij',data)
     const {
       //5
       respiratoryRate,

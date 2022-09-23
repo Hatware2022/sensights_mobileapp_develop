@@ -41,8 +41,8 @@ export const TasksItem = props => {
   const date = new Date(time);
   let dueDate = moment(taskDueDate);
   let createDate = moment(time);
-  const _displayDate = dueDate.format('MM/DD/YYYY');
-  const createdDate = createDate.format('MM/DD/YYYY');
+  const _displayDate = dueDate.format('DD/MM/YYYY hh:mm A');
+  const createdDate = createDate.format('DD/MM/YYYY hh:mm A');
 
   const getPriority = val => {
     switch (val) {
@@ -123,14 +123,14 @@ export const TasksItem = props => {
                 <>
                 <View style={{flexDirection:'row',marginRight:'7%',}}>
                 <Text
-                  style={{width: '90%', marginTop: 5}}
+                  style={{width: '85%', marginTop: 5}}
                   numberOfLines={1}
                   ellipsizeMode={'tail'}>
                   {createdDate}
                 </Text>
                 <View style={{flexDirection:'row',marginTop:5}}>
-                  <Feather name='edit' size={18} onPress={props.onPressEdit} />
-                  <AntDesign name='delete' size={18} style={{paddingHorizontal:7}} onPress={props.onPressDelete}/>
+                  <Feather name='edit' size={18} onPress={props.onPressEdit} style={{padding:5,marginRight:5}} />
+                  <AntDesign name='delete' size={18} style={{paddingHorizontal:7,padding:5,marginRight:10}} onPress={props.onPressDelete}/>
                 </View>
                 </View>
                 </>

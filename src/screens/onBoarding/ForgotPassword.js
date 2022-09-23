@@ -59,7 +59,7 @@ import {showMessage} from '../../utils';
 
  const sendMail = async () => {
   setSpinner(false)
-  setEmailSend(true)
+  // setEmailSend(true)
     let message = '';
     if (email.length == 0 || !validate(email)) {
       message = theme.strings.enter_email;
@@ -76,6 +76,7 @@ import {showMessage} from '../../utils';
         .post(Platform.OS === 'ios'? api.appleForgotPassword : api.forgotPassword, body)
         .then(res => {
           if (res?.data != null) {
+            setEmail('')
             setSpinner(false)
             setEmailSend(true)
             // setTimeout(() => {
@@ -124,6 +125,7 @@ import {showMessage} from '../../utils';
           placeholderTextColor={theme.colors.white}
           keyboardType={'email-address'}
           onChangeText={text => handleChange('email', text)}
+          value={email}
         />
 
         <TouchableOpacity

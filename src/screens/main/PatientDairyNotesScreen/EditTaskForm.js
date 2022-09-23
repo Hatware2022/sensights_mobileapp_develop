@@ -63,12 +63,13 @@ import {
     };
     const updateDateField = value => {
       let __date = moment(value); // converting the selected date as current date on utc 0, fixing time difference
-      var _displayDate = __date.format('YYYY-MM-DD');
+      var sendDate = __date.format('YYYY-MM-DD');
+      var _displayDate = value;
       setSelectedDate(_displayDate);
       const UTCtime = moment.utc(moment(new Date()).utc()).format();
       _displayDate = `${_displayDate}${UTCtime.substring(10)}`;
       let _fields = {...fields};
-      Object.assign(_fields, {['taskDate']: _displayDate});
+      Object.assign(_fields, {['taskDate']: sendDate});
       setFields(_fields);
       hideDatePicker();
     };
@@ -95,7 +96,7 @@ import {
         return false;
       }
       if (!fields.taskDate || fields.taskDate.length < 1) {
-        showMessage('Please select a date/time');
+        showMessage('Please select a date & time');
         return false;
       }
       return true;
@@ -106,7 +107,6 @@ import {
       if (!validateInput()) return;
       setLoadingSave(true);
       // const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
-  
       try {
         await axios
           .put(`${api.updateTask}${taskId}`, {...fields})
@@ -217,7 +217,7 @@ import {
                           fields.taskDate == null ? 'rgba(0,0,0,0.2)' : 'black',
                       }}>
                       {fields.taskDate != null
-                        ? selectedDate
+                        ? moment(selectedDate).format('DD/MM/YYYY hh:mm A')
                         : 'Select Date/Time'}
                     </Text>
                   </Text>
@@ -225,7 +225,7 @@ import {
   
                 <DateTimePickerModal
                   display="spinner"
-                  mode={'date'}
+                  mode={'datetime'}
                   isVisible={isDatePickerVisible}
                   onConfirm={updateDateField}
                   onCancel={hideDatePicker}

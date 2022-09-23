@@ -1,10 +1,8 @@
 import {
   AppConstants,
   StorageUtils,
-  convertDate,
   showMessage,
 } from '../../../utils';
-import { Button } from 'react-native-elements';
 import {
   Dimensions,
   StyleSheet,
@@ -18,18 +16,11 @@ import {
   Image
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import DateTimePickerModal from 'react-native-modal-datetime-picker';
-
 import {
   NavigationHeaderV2,
-  NoDataState,
-  DropDown,
 } from '../../../components';
 import { api } from '../../../api';
 import { theme } from '../../../theme';
-import { useFetch } from '../../../hooks';
-import { priorityArray, reminderOption } from '../../../configs';
-import moment from 'moment';
 import DocumentPicker from 'react-native-document-picker';
 import axios from 'axios';
 import Snackbar from 'react-native-snackbar';
@@ -41,6 +32,7 @@ export const AddEditMedicalReportForm = props => {
 
   const [message, setMessage] = useState(props.navigation.state.params?.item?.message)
   const [careGiverList, setCareGiverList] = useState(null)
+  const [selectedCareGiverList, setSelectedCareGiverList] = useState([])
   const [file, setFile] = useState(props.navigation.state.params?.item)
   const [selectedCareGiver, setSelectedCareGiver] = useState('')
   const [loadingSave, setLoadingSave] = useState(false);
@@ -63,6 +55,15 @@ export const AddEditMedicalReportForm = props => {
             res.data.forEach((e, i) => {
               temp.push({ ...e, checked: false })
             })
+            if(props.navigation.state.params?.item?.permissions && props.navigation.state.params?.item?.permissions.length>0){
+              props.navigation.state.params?.item?.permissions.forEach((f,j)=>{
+              temp.forEach((e, i) => {
+                if(e.careGiverId === f.userId){
+                  e.checked = true 
+                }
+              })
+            })
+            }
             setCareGiverList(temp)
           }
           setLoadingSave(false);
@@ -85,16 +86,21 @@ export const AddEditMedicalReportForm = props => {
 
   const handleSelectedCaregiver = (id) => {
     let temp = []
+    let list = []
     careGiverList.forEach((e, i) => {
       e.careGiverId === id ? temp.push({ ...e, checked: !e.checked }) : temp.push(e)
     })
+    selectedCareGiverList.forEach((e, i) => {
+      e === id ? [] : list.push(e)
+    })
+    setSelectedCareGiverList(list)
     setCareGiverList(temp)
   }
 
   const handleUploadDocument = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.allFiles],
+        type: ["*/*"],
       });
       //Printing the log realted to the file
       setFile(res)
@@ -114,6 +120,7 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleEditMedicalReport = async () => {
+    handlePermissionsMedicalReport()
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     let formdata = new FormData();
     if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
@@ -160,6 +167,7 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleAddMedicalReport = async () => {
+    handlePermissionsMedicalReport()
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
 console.log('sadhui')
 let formdata = new FormData();
@@ -197,6 +205,62 @@ formdata.append("MedicalAttachment", file?.[0])
       console.log('89098909',err)
       showMessage('Network issue try again');
     }
+  }
+
+  const handlePermissionsMedicalReport = async () => {
+    let list = []
+    careGiverList.forEach((e,i)=>{
+      if(e.checked){
+      list.push({userId: e.careGiverId})
+      }
+    })
+    const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
+    const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
+    try {
+      let response = await axios.post(api.addPermissionCareGiver+"?Id="+userId,
+       {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + token,
+      }, list
+      );
+      console.log('handlePermissionsMedicalReport : response ', response);
+    } catch (error) {
+      console.log('action error => ', error);
+    }
+    // try {
+    //   let response = await axios({
+    //     url: api.addPermissionCareGiver+"?Id="+userId,
+    //     method: 'POST',
+    //     headers: {
+    //       Accept: 'application/json',
+    //       'Content-Type': 'application/json',
+    //       Authorization: 'Bearer ' + token,
+    //     },
+    //     data: list,
+    //   })
+    //     .then(res => {
+    //       console.log('handlePermissionsMedicalReport : ',res)
+    //       if (res?.data != null) {
+    //         console.log('handlePermissionsMedicalReport : ',res)
+    //       }
+    //     })
+    //     .catch(err => {
+    //       setTimeout(() => {
+    //         console.log('handlePermissionsMedicalReport error : ',err);
+    //         Snackbar.show({
+    //           text: err?.description,
+    //           duration: Snackbar.LENGTH_SHORT,
+    //         });
+    //       }, 100);
+    //     });
+
+    //     console.log('responseeee : ',response)
+
+    // } catch (err) {
+    //   console.log('handlePermissionsMedicalReport err : ',err)
+    //   showMessage('Network issue try again');
+    // }
   }
   return (
     <View style={styles.container}>

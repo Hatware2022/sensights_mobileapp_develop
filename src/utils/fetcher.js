@@ -57,6 +57,12 @@ export const getDeviceList = async (
     case 'Weight':
       serviceUrl = `${apiUrl}/Weight`;
       break;
+    case 'Respiratory Level':
+      serviceUrl = `${apiUrl}/RespiratoryLevel`;
+      break;
+    case 'Stress Level':
+      serviceUrl = `${apiUrl}/StressLevel`;
+      break;
     default:
       serviceUrl = ``;
   }
