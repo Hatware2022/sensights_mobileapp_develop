@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
-//import com.imagepicker.ImagePickerPackage;
-//import com.imagepicker.ImagePickerPackage;
+import com.imagepicker.ImagePickerPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.jamesisaac.rnbackgroundtask.BackgroundTaskPackage;
 import com.facebook.react.ReactInstanceManager;
 import com.facebook.react.ReactNativeHost;
@@ -14,7 +14,8 @@ import com.facebook.soloader.SoLoader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-// import .rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
+// import com.rt2zz.reactnativecontacts.ReactNativeContacts; // <--- import
+// import com.github.wumke.RNImmediatePhoneCall.RNImmediatePhoneCallPackage;
 // import com.github.reactnativecommunity.location.RNLocationPackage;
 // import com.devfd.RNGeocoder.RNGeocoderPackage; // <--- import
 

@@ -58,10 +58,11 @@ if (Platform.OS === 'android') Pushy.setNotificationIcon('ic_launcher');
 
    const handleDeepLink = (event) => {
         let url = event.url
-        let resetPasswordParams = url.split('resetpassword');
+        let resetPasswordParams = url.split(Platform.OS==='android'?'resetpassword':'ResetPassword');
         let signupParams = url.split('confirmation');
         let queryparams = url.split('?')[1];
         let params = queryparams.split('&');
+        console.log('handleDeepLink : ',url, resetPasswordParams,signupParams)
       if(resetPasswordParams && resetPasswordParams.length > 1){
         let code = params[1].replace("code=","")
         let email = params[2].replace("email=","")
