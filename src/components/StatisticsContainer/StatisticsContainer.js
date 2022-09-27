@@ -871,43 +871,44 @@ export const StatisticsContainer = props => {
     //   respiratoryRateTrafficColor,
     // } = data;
     // console.log('ijijijijij',data)
-    const {
-      //5
-      respiratoryRate,
-      respiratoryRateDate,
-      respiratoryRateDeviceId,
-      respiratoryRateDeviceTag,
-      respiratoryRateTrafficColor,
-    } = data;
 
+    
+    const {o2, o2Date, o2DeviceTag, o2TrafficColor,
+          //5
+          respiratoryRate,
+          respiratoryRateDate,
+          respiratoryRateDeviceId,
+          respiratoryRateDeviceTag,
+          respiratoryRateTrafficColor,} = data;
     return (
       <StatisticsItemV2
-        bg_color={respiratoryRateTrafficColor}
+        // avatar={theme.strings.respiratoryLevel}
         avatar={icons.stats.hrv}
         title={theme.strings.respiratoryLevel}
-        onPress={
-          () =>
-            // navigation.navigate("StatisticsScreen", {
-            // {}
+        bg_color={respiratoryRateTrafficColor}
+        // description={getDescription(o2, "%", o2Date)}
+        // progressColor={theme.colors.green_shade_1}
+        // progress={0.8}
+        onPress={() =>
           navigation.navigate('StatsDetails', {
             title: 'Respiratory Level',
-            //  deviceSettings: 'heartRate',
             seniorId,
+            statsDate,
             timeOffset,
             subHeading: 'DAILY AVERAGE',
-            // unit: 'Ab',
-            gradiantColors: ['rgba(249, 98, 37, 0.610205)', '#EB5757'],
-            headerColor: '#EB5757',
+            // unit: '%',
+            gradiantColors: ['#47CA5D', '#1CA556'],
+            headerColor: '#47CA5D',
             infoType: 'respiratory_rate',
-            statsDate,
-            average: [respiratoryRate, respiratoryRate],
-            lastValue: [respiratoryRate, respiratoryRate],
-            lastValueDate: [respiratoryRateDate, respiratoryRateDate],
+            screenType: 'respiratory_rate',
+            average: respiratoryRate,
+            lastValue: respiratoryRate,
+            lastValueDate: respiratoryRateDate,
             selectedDeviceTag: respiratoryRateDeviceTag,
             bg_color: respiratoryRateTrafficColor,
           })
         }>
-        {/* <Text style={{ fontSize: 35, fontWeight: "bold", textAlign: "center" }}>{hr}<Text style={{ fontSize: 14, fontWeight: "normal" }}> BPM</Text></Text> */}
+        {/* <Text style={{ fontSize: 35, fontWeight: "bold", textAlign: "center" }}>{o2}<Text style={{ fontSize: 14, fontWeight: "normal" }}> %</Text></Text> */}
         <Text style={{fontSize: 35, fontWeight: 'bold', textAlign: 'center'}}>
           {respiratoryRate || '-'}
         </Text>

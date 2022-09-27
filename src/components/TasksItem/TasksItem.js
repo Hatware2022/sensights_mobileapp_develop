@@ -41,8 +41,10 @@ export const TasksItem = props => {
   const date = new Date(time);
   let dueDate = moment(taskDueDate);
   let createDate = moment(time);
+  // moment(taskDueDate).format('MMMM Do YYYY')
   const _displayDate = dueDate.format('DD/MM/YYYY hh:mm A');
-  const createdDate = createDate.format('DD/MM/YYYY hh:mm A');
+  // const createdDate = createDate.format('DD/MM/YYYY hh:mm A');
+  const createdDate = dueDate.format('MMMM DD, YYYY h:mm A');
 
   const getPriority = val => {
     switch (val) {

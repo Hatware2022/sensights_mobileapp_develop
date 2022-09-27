@@ -195,6 +195,7 @@ export class MedicalReport extends Component {
               data={this.state.medicalRecord}
               renderItem={({item}) => (
                 <MedicalListItem
+                checkbox={false}
                   title={item.title}
                   message={item.message}
                   description={item.taskDescription}

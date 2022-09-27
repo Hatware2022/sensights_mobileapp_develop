@@ -28,6 +28,7 @@ export const MedicalListItem = props => {
     createdByName,
     taskDueDate,
     taskPriority,
+    checkbox
   } = props;
   const days = [
     'Sunday',
@@ -70,11 +71,15 @@ export const MedicalListItem = props => {
     <View style={{flexDirection: 'row', alignItems: 'center'}}>
       <Row>
         <Col valign="center">
+          {checkbox === false ?
+          <View style={{marginLeft:10}}/>
+          :
           <TouchableOpacity
             onPress={() => props.showTaskCompleteDialog(id)}
             style={{padding: 10, paddingRight: 15}}>
             <Image source={checked ? icons.checked_icon : icons.unchecked} />
           </TouchableOpacity>
+}
         </Col>
 
         <Col flex="auto" valign="center">

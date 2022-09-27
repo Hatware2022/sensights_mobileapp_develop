@@ -274,6 +274,12 @@ export class StatisticsScreen extends Component {
         }stressLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
           timeOffsetState ? timeOffsetState : timeOffset.toString()
         }`;
+      case 'Respiratory Level':
+          serviceUrl = `${
+            api.healthStatsDayAvg
+          }respiratoryLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
+            timeOffsetState ? timeOffsetState : timeOffset.toString()
+          }`;
         break;
       default:
         serviceUrl = null;
@@ -324,7 +330,6 @@ export class StatisticsScreen extends Component {
           ? null
           : statsDataResult.data.lastCapturedDate;
     }
-
     this.setState({
       last30DayAvg,
       lastCapturedValue,

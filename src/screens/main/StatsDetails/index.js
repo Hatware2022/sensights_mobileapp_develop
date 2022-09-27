@@ -262,6 +262,12 @@ export class StatsDetails extends Component {
         }stressLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
           timeOffsetState ? timeOffsetState : timeOffset.toString()
         }`;
+      case 'Respiratory Level':
+        serviceUrl = `${
+          api.healthStatsDayAvg
+        }respiratoryLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
+          timeOffsetState ? timeOffsetState : timeOffset.toString()
+        }`;
         break;
       default:
         serviceUrl = null;
@@ -898,7 +904,7 @@ export class StatsDetails extends Component {
                   <Hr />
                 </>
               )}
-
+{console.log('alertData_BP_Sys',alertData)}
               <TouchableOpacity
                 disabled={this.state.disableHistory || !selectedDeviceTag}
                 style={{opacity: selectedDeviceTag ? 1 : 0.5}}
