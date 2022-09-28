@@ -3,6 +3,7 @@ import {
   StorageUtils,
   convertDate,
   showMessage,
+  getTOffset
 } from '../../../utils';
 import {Button} from 'react-native-elements';
 import {
@@ -68,7 +69,7 @@ export const TaskForm = props => {
     const UTCtime = moment.utc(moment(new Date()).utc()).format();
     _displayDate = `${_displayDate}${UTCtime.substring(10)}`;
     let _fields = {...fields};
-    Object.assign(_fields, {['taskDate']: sendDate});
+    Object.assign(_fields, {['taskDate']: value});
     setFields(_fields);
     hideDatePicker();
   };

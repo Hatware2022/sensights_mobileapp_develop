@@ -3,6 +3,7 @@ import {
     StorageUtils,
     convertDate,
     showMessage,
+    getTOffset
   } from '../../../utils';
   import {Button} from 'react-native-elements';
   import {
@@ -40,9 +41,14 @@ import {
     const [loadingSave, setLoadingSave] = useState(false);
   
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params?.item?.taskDate?.substring(0,10));
+    const [selectedDate, setSelectedDate] = useState(props.navigation.state.params?.item?.taskDate);
     const [item,setItem]= useState(props.navigation.state.params?.item)
   
+    useEffect(()=>{
+      const ssstime = getTOffset(props.navigation.state.params?.item?.taskDate);
+      const createdDate = ssstime.offsetTime.format('MMMM DD, YYYY h:mm A');
+      setSelectedDate(createdDate);
+    },[])
     const [fields, setFields] = useState({
       alertId: 0,
       assignedForId: props.navigation.getParam('seniorId', null),
@@ -65,11 +71,13 @@ import {
       let __date = moment(value); // converting the selected date as current date on utc 0, fixing time difference
       var sendDate = __date.format('YYYY-MM-DD');
       var _displayDate = value;
+      const ssstime = getTOffset(value);
+      const createdDate = ssstime.offsetTime.format('MMMM DD, YYYY h:mm A');
       setSelectedDate(_displayDate);
       const UTCtime = moment.utc(moment(new Date()).utc()).format();
       _displayDate = `${_displayDate}${UTCtime.substring(10)}`;
       let _fields = {...fields};
-      Object.assign(_fields, {['taskDate']: sendDate});
+      Object.assign(_fields, {['taskDate']: value});
       setFields(_fields);
       hideDatePicker();
     };

@@ -98,17 +98,14 @@ export const MedicalListItem = props => {
               )}
               <Row>
                 <Col flex="auto" valign="center">
-                  <Text>Message</Text>
-                </Col>
-                <Col valign="center">
-                  <Text
+                <Text
                     style={{
                       color: 'grey',
                       fontWeight: 'bold',
-                      marginRight: 16,
-                    }}>
-                    {message}
-                  </Text>
+                      marginBottom: 6,
+                    }}>{message}</Text>
+                </Col>
+                <Col valign="center">
                 </Col>
               </Row>
               <Row>
