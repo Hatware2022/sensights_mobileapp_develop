@@ -93,6 +93,7 @@ export class IndividualUserProfile extends Component {
       profileListData: [],
       profileData: null,
       isPrimary: false,
+      primaryCareGiver:false
     };
 
     this.token = '';
@@ -108,11 +109,30 @@ export class IndividualUserProfile extends Component {
     });
 
     this.loadPageData();
+    this.getPrimaryCareGiver()
   }
 
   componentWillUnmount() {
     // Remove the event listener
     if (this.focusListener) this.focusListener.remove();
+  }
+
+
+  getPrimaryCareGiver = async () => {
+    const uri = `${
+      api.getPrimaryCaregiver
+    }${await StorageUtils.getValue(AppConstants.SP.USER_ID)}`;
+    
+    try {
+      let response = await axios({
+        url: uri,
+        method: 'GET',
+      });
+      console.log('response while Getting primary caregiver', response);
+      this.setState({primaryCareGiver:response?.data})
+    } catch (error) {
+      console.log('Error while Getting Primary caregiver=> ' + error);
+    }
   }
 
   async loadPageData() {
@@ -199,6 +219,7 @@ export class IndividualUserProfile extends Component {
       onPress: () => {
         navigation.navigate('MedicalReport', {
           profileData: this.state.profileData,
+          primaryCareGiver:true
         });
       },
       key: 'medical_report',
@@ -716,7 +737,10 @@ export class IndividualUserProfile extends Component {
               email={profileData?.email}
               description={profileData?.profileDescription}
             />
-
+    <TouchableOpacity style={{width:'100%',height:50,paddingLeft:20,borderTopColor:'grey',borderBottomColor:'grey',borderTopWidth:1,borderBottomWidth:1}} onPress={()=>this.props.navigation.navigate('MedicalReport',{primaryCareGiver:this.state.primaryCareGiver})}>
+      <Text style={{fontSize:16,marginTop:13,fontWeight:'bold',}}>Add Medical Record</Text>
+    </TouchableOpacity>
+  
             <UserSettings settingList={settingList} showDivider={true} />
           </ScrollView>
 

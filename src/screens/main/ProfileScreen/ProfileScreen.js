@@ -195,6 +195,7 @@ export class ProfileScreen extends Component {
       onPress: () => {
         navigation.navigate('MedicalReport', {
           profileData: this.state.profileData,
+          primaryCareGiver:true
         });
       },
       key: 'medical_report',

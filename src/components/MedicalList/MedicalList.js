@@ -28,7 +28,8 @@ export const MedicalListItem = props => {
     createdByName,
     taskDueDate,
     taskPriority,
-    checkbox
+    checkbox,
+    primaryCareGiver
   } = props;
   const days = [
     'Sunday',
@@ -130,10 +131,12 @@ export const MedicalListItem = props => {
                   ellipsizeMode={'tail'}>
                   {createdDate}
                 </Text>
-                <View style={{flexDirection:'row',marginTop:-12}}>
+                {primaryCareGiver  &&
+                 <View style={{flexDirection:'row',marginTop:-12}}>
                   <Feather name='edit' size={18} onPress={props.onPressEdit} />
                   <AntDesign name='delete' size={18} style={{paddingHorizontal:7}} onPress={props.onPressDelete}/>
-                </View>
+                </View> 
+}
                 </View>
                 </>
               )}

@@ -121,6 +121,8 @@ export const api = {
   addMeetingUser: baseURL + 'MeetingRoom/Add/Participent',
   //to remove the meeting user from schedule call
   removeMeetingUser: baseURL + 'MeetingRoom/Remove/Participent',
+  // to get the primary caregiver
+  getPrimaryCaregiver: baseURL + 'Seniors/IsPrimary/caregiver/',
 };
 
 export const GET_MEDICATION = `${baseURL}SeniorMedicalDetails/Medication/{seniorId}`;

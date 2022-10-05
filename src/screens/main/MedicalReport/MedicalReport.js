@@ -45,12 +45,14 @@ export class MedicalReport extends Component {
       medicalRecord:[],
       spinner: false,
       taskDialog: false,
+      primaryCareGiver:this.props.navigation.state.params?.primaryCareGiver
     };
     this.arrayHolder = [];
     this.completedTaskId = null;
   }
 
   componentDidMount() {
+    
     this.setState({spinner: true});
     this.getRecordFromServer();
   }
@@ -181,7 +183,7 @@ export class MedicalReport extends Component {
           title="Medical Report"
           allowBack
           navigation={this.props.navigation}
-          rightComponent={<TouchableOpacity onPress={()=>this.props.navigation.navigate('AddEditMedicalReportForm')}><Text style={{color:'#fff',fontSize:14}}>Add New</Text></TouchableOpacity>}
+          rightComponent={this.state.primaryCareGiver ? <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddEditMedicalReportForm')}><Text style={{color:'#fff',fontSize:14}}>Add New</Text></TouchableOpacity> : ''}
         />
 
         <View style={styles.subContainer}>
@@ -195,7 +197,8 @@ export class MedicalReport extends Component {
               data={this.state.medicalRecord}
               renderItem={({item}) => (
                 <MedicalListItem
-                checkbox={false}
+                primaryCareGiver={this.state.primaryCareGiver}
+                  checkbox={false}
                   title={item.title}
                   message={item.message}
                   description={item.taskDescription}
