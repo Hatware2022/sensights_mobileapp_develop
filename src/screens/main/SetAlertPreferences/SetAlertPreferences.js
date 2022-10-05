@@ -262,17 +262,17 @@ export default class SetAlertPreferences extends Component {
                           : {fontSize: 30, marginTop: -10},
                       ]}>
                       {isStress
-                        ? readingVal == -1
+                        ? readingVal == 0
                           ? 'Relaxed'
-                          : readingVal == 0
-                          ? 'Normal'
                           : readingVal == 1
-                          ? 'Low Stress'
+                          ? 'Normal'
                           : readingVal == 2
-                          ? 'Medium Stress'
+                          ? 'Low Stress'
                           : readingVal == 3
-                          ? 'High Stress'
+                          ? 'Medium Stress'
                           : readingVal == 4
+                          ? 'High Stress'
+                          : readingVal == 5
                           ? 'Very High Stress'
                           : '' + '  '
                         : ` ${readingVal.toFixed(item.isDecimalUnit ? 1 : 0)}`}

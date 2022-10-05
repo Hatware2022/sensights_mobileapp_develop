@@ -13,7 +13,8 @@ import {
   ScrollView,
   TextInput,
   FlatList,
-  Image
+  Image,
+  Platform
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import {
@@ -28,7 +29,7 @@ import Snackbar from 'react-native-snackbar';
 export const AddEditMedicalReportForm = props => {
   const noteId = props.navigation.getParam('noteId', null);
   const name = props.navigation.getParam('name', null);
-  const alert = props.navigation.getParam('alert', null);
+  const alert2 = props.navigation.getParam('alert', null);
 
   const [message, setMessage] = useState(props.navigation.state.params?.item?.message)
   const [careGiverList, setCareGiverList] = useState(null)
@@ -100,7 +101,7 @@ export const AddEditMedicalReportForm = props => {
   const handleUploadDocument = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: ["*/*"],
+        type: [Platform.OS==='ios'?"public.item":"*/*"],
       });
       //Printing the log realted to the file
       setFile(res)
@@ -110,16 +111,24 @@ export const AddEditMedicalReportForm = props => {
       //Handling any exception (If any)
       if (DocumentPicker.isCancel(err)) {
         //If user canceled the document selection
-        alert('Canceled from single doc picker');
+        alert2('Canceled from single doc picker');
       } else {
         //For Unknown Error
-        alert('Unknown Error: ' + JSON.stringify(err));
+        alert2('Unknown Error: ' + JSON.stringify(err));
         throw err;
       }
     }
   }
 
   const handleEditMedicalReport = async () => {
+    if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
+      alert('File is required')
+      return
+    }
+    if(message && message ===''){
+      alert('Message is required')
+      return
+    }
     handlePermissionsMedicalReport(props.navigation.state.params?.item?.id)
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     let formdata = new FormData();
@@ -167,7 +176,14 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleAddMedicalReport = async () => {
-   
+    if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
+      alert('File is required')
+      return
+    }
+    if(message && message ===''){
+      alert('Message is required')
+      return
+    }
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     
 console.log('sadhui')

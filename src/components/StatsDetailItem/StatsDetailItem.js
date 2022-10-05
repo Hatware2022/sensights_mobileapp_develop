@@ -126,6 +126,12 @@ export const StatsDetailItem = props => {
           api.healthStatsDayValues
         }stressLevel/${seniorId}/${stDate}?&offSetHours=${timeOffset.toString()}&deviceTag=${selectedDeviceTag}`;
         break;
+        case 'Respiratory Level':
+          icon = icons.stats_glucose_icon;
+          statsApiURL = `${
+            api.healthStatsDayValues
+          }respiratoryLevel/${seniorId}/${stDate}?&offSetHours=${timeOffset.toString()}&deviceTag=${selectedDeviceTag}`;
+          break;
       default:
         statsApiURL = ``;
     }

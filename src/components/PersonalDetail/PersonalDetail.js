@@ -5,7 +5,7 @@ import {icons} from '../../assets';
 import {styles} from './styles';
 
 export const PersonalDetail = props => {
-  const {avatar, title, time, description, onPress, email} = props;
+  const {avatar, title, time, description, onPress, email,isPrimary=false,showToPrimary=false,onViewProfile} = props;
   return (
     <>
       <View style={styles.root}>
@@ -19,10 +19,27 @@ export const PersonalDetail = props => {
               {email}
             </Text>
           </View>
+         
           <View style={styles.right}>
-            <TouchableOpacity onPress={onPress}>
+            {showToPrimary ? 
+              <TouchableOpacity  onPress={onViewProfile}>
+              <Image style={{marginRight:8,alignSelf:"center"}} source={icons.show_password} />
+            </TouchableOpacity>  
+            :null
+          }
+        
+          
+             {
+              isPrimary ?
+              <TouchableOpacity  onPress={onPress}>
               <Image style={styles.rightImage} source={icons.edit_profile} />
             </TouchableOpacity>
+            :
+            <></>
+             }
+            {/* <TouchableOpacity  onPress={onPress}>
+              <Image style={styles.rightImage} source={icons.edit_profile} />
+            </TouchableOpacity> */}
           </View>
         </View>
       </View>

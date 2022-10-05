@@ -106,4 +106,14 @@ export const HEALTHDATA_WIDGETS = [
     widgetName: 'hdw-fall', //AppWidgets.ACTIVITY_SCORE,
     description: 'Monitor my Fall',
   },
+  {
+    title: 'Stress Level',
+    widgetName: 'hdw-stress-level', //AppWidgets.ACTIVITY_SCORE,
+    description: 'Monitor my Stress Level',
+  },
+  {
+    title: 'Respiratory Rate',
+    widgetName: 'hdw-respiratory-rate', //AppWidgets.ACTIVITY_SCORE,
+    description: 'Monitor my Respiratory Rate',
+  },
 ].map(o => ({ ...o, category: "Health Data" }))

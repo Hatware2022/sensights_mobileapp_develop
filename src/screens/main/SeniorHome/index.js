@@ -45,6 +45,7 @@ import {EventRegister} from 'react-native-event-listeners';
 export class SeniorHome extends Component {
   constructor(props) {
     super(props);
+    this.profileData = this.props.navigation.getParam('profileData');
     this.seniorId = this.props.navigation.getParam('seniorId', this.props.id);
     this.seniorName = this.props.navigation.getParam('seniorName', '');
     this.seniorImg = this.props.navigation.getParam('seniorImg', '');
@@ -86,6 +87,10 @@ export class SeniorHome extends Component {
       isShowPatientDiaryCaregiver: true,
       risk_AssessmentLastDate: 'never',
       newAlertCount: 0,
+      isShowPatientProfile:true,
+      isShowPatientProfileCaregiver:true,
+      isShowPatientProfileViewVisible:true,
+      
     };
 
     this.prevAlertCount = 0;
@@ -646,6 +651,7 @@ export class SeniorHome extends Component {
     if (!isShowInfectionRisk) return null;
 
     return (
+      // <></>
       <View>
         <View style={styles.headerLocStatsView}>
           <Text style={styles.headerLocStatsTitle}>
@@ -840,6 +846,67 @@ export class SeniorHome extends Component {
     );
   };
 
+
+  //  Profile Update
+
+  renderProfileEditView= () => {
+     console.log("seniorImg",this.seniorImg)
+     const uri=this.seniorImg;
+    // {...this.props}
+    const {
+      isShowPatientProfile,
+      isShowPatientProfileCaregiver,
+      isShowPatientProfileViewVisible,
+    } = this.state;
+    const isProfileVisible =
+      this.role == 'senior' ? isShowPatientProfile : isShowPatientProfileCaregiver;
+
+    if (!isProfileVisible) return null;
+      // {console.log("data at senior home",this.profileData)}
+    return (
+   
+      
+      <View>
+        <View style={styles.headerLocStatsView}>
+          <Text style={styles.headerLocStatsTitle}>
+            {/* Individual Profile */}
+            {theme.strings.individual_profile}
+          </Text>
+          <TouchableOpacity
+            onPress={() => this.onPressAccordian('isShowPatientProfileViewVisible')}>
+            <Image
+              source={
+                isShowPatientProfileViewVisible
+                  ? icons.accordian_minus
+                  : icons.accordian_plus
+              }
+              style={{width: 26, height: 26}}
+            />
+          </TouchableOpacity>
+        </View>
+        {isShowPatientProfileViewVisible && (
+          <LocationItem
+          name={`${this.profileData.firstName} ${this.profileData.lastName}` }
+          // detail="Last Updated • Yesterday"
+          leftIcon={icons.patient_diary}
+          onPress={() => {
+            // alert("clicked")
+            this.props.navigation.navigate('IndividualUserProfile', {
+              profileData:this.profileData,
+              seniorId: this.seniorId,
+              // seniorName: this.seniorName,
+              // seniorProfile: this.seniorImg,
+              // role: this.role,
+              // appType: this.appType,
+            });
+          }}
+          />
+        )}
+      </View>
+    );
+  };
+
+  // 
   renderLocationView = () => {
     const {
       isShowLocation,
@@ -923,6 +990,7 @@ export class SeniorHome extends Component {
     if (!isStaticsVisible) return null;
 
     return (
+      // <></>
       <StatisticsContainer
         navigation={this.props.navigation}
         seniorId={this.seniorId}
@@ -1074,6 +1142,7 @@ export class SeniorHome extends Component {
 
             {this.renderTask()}
             {this.renderStatics()}
+            {this.role == 'caretaker' && this.renderProfileEditView()}
             {this.appType != 2 && this.renderLocationView()}
             {this.appType != 2 && this.renderPatientDiary()}
             {this.role !== 'caretaker' && this.renderApps()}

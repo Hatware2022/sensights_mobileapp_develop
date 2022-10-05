@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
   },
   left: { padding: 8, alignSelf: "center" },
   title: { fontFamily: theme.fonts.SFProSemibold, fontSize: 18 },
-  right: { padding: 8, flexDirection: "row" },
+  right: { padding: 8, flexDirection: "row",justifyContent:"center",alignItems:"center" },
   content: {
     flexGrow: 1,
     justifyContent: "space-between",

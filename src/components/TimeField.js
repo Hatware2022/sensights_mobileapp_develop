@@ -13,7 +13,7 @@ const isValidDate = (_value) => {
 
 
 export const TimeField = (props) => {
-    const { value, placeholder } = props;
+    const { value, placeholder,disabled } = props;
     const format = props.format || 'HH:mm:ss'
     const displayFormat = props.displayFormat || 'HH:mm'
 
@@ -58,7 +58,9 @@ export const TimeField = (props) => {
     // }
 
     return(<>
-        <TouchableOpacity onPress={() => setDatePickerVisibility(true)}>
+        <TouchableOpacity 
+          disabled={disabled}
+        onPress={() => setDatePickerVisibility(true)}>
             <Text style={props.style}>
                 {/* {selectedDate ? selectedDate.format(displayFormat) : placeholder ? <Text style={{ color: "rgba(0,0,0,0.2)" }}>{placeholder}</Text> : ""} */}
                 {isValidDate(value) ? moment(value).format(displayFormat) : placeholder ? <Text style={{ color: "rgba(0,0,0,0.2)" }}>{placeholder}</Text> : ""}

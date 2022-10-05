@@ -98,10 +98,14 @@ export class EditProfile extends Component {
   };
   constructor(props) {
     super(props);
+    // this.profileData = this.props.navigation.getParam('profileData');
     const {getParam} = this.props.navigation;
 
     this.role = getParam('role');
     this.noBack = getParam('noBack');
+    // this.isPrimary=getParam('isPrimary');
+    // this.seniorId=getParam('seniorId');
+    // this.individual=getParam('individual');
 
     // Only for UK CareHomes
     // this.jobTitle = getParam("jobTitle", "");
@@ -111,7 +115,7 @@ export class EditProfile extends Component {
     // this.agentEmail = getParam("agentEmail", null);
     // this.careHomeLocation = getParam("careHomeLocation", 1);
   }
-
+ 
   componentDidMount() {
     if (Platform.OS !== 'ios') {
       StatusBar.setTranslucent(false);
@@ -658,10 +662,56 @@ export class EditProfile extends Component {
       navigation.navigate('HomeScreen', {selectedTab: 4});
     } // if we are coming from OTP screen then
     else {
+      console.log("else part")
       navigation.navigate('HomeScreen');
     }
   };
 
+  goBackToIndividualProfile = () => {
+    const {navigation} = this.props;
+    const {getParam} = navigation;
+    const callBackToProfileScreen = getParam('onRefreshCallBack');
+    if (callBackToProfileScreen) {
+      callBackToProfileScreen();
+      //navigation.navigate("ProfileScreenTab")
+      navigation.navigate('IndividualUserProfile');
+    } // if we are coming from OTP screen then
+    else {
+      console.log("else part")
+      navigation.navigate('IndividualUserProfile');
+    }
+  };
+// edit individualprofile
+// updateIndividualProfile = async () => {
+//   // alert("individual called")
+//   if (this.isValidInput()) {
+//     this.setState({spinner: true});
+
+//     const reqBody = this.getFormObject();
+//     // console.log("Sending: ", reqBody)
+//     // return;
+
+//     // await ProfileUpdated.updateProfile({ input: reqBody, updateLocal:true}).then(r => {
+//     await ProfileUpdated.updateIndividualProfile({input: reqBody, updateLocal: true,id:this.seniorId})
+//       .then(r => {
+//         this.setState({spinner: false});
+
+//         if (!r || r.error) {
+//           console.log('ERROR: ', r);
+//           Snackbar.show({text: r.error, duration: Snackbar.LENGTH_LONG});
+//           return;
+//         }
+
+//         this.goBackToIndividualProfile();
+//       })
+//       .catch(error => {
+//         console.log('error: ', error);  
+//         this.setState({spinner: false});
+//         Snackbar.show({text: `${error}`, duration: Snackbar.LENGTH_LONG});
+//       });
+//   }
+// };
+// 
   updateProfile = async () => {
     if (this.isValidInput()) {
       this.setState({spinner: true});
@@ -717,6 +767,11 @@ export class EditProfile extends Component {
     const {navigation} = this.props;
     navigation.navigate('HomeScreen');
   };
+  // canceIndividuallButtonPress = () => {
+  //   const {firstName, lastName} = this.state;
+  //   const {navigation} = this.props;
+  //   navigation.navigate('IndividualUserProfile');
+  // };
 
   toFeet = n => {
     var realFeet = (n * 0.3937) / 12;
@@ -759,7 +814,7 @@ export class EditProfile extends Component {
   };
 
   render() {
-    // console.log("this.state: ", this.state);
+  
     if (this.state.fatalError)
       return (
         <Text style={{padding: 50, color: '#F00', textAlign: 'center'}}>
@@ -831,6 +886,7 @@ export class EditProfile extends Component {
                 style={{flexDirection: 'row', paddingTop: 20, paddingLeft: 20}}>
                 <View>
                   <TouchableOpacity
+               
                     onPress={() => this.setState({modalVisible: true})}
                     style={{alignItems: 'center'}}>
                     <Image
@@ -865,6 +921,7 @@ export class EditProfile extends Component {
                     style={{...styles.inputField, marginTop: 16}}
                     placeholder="Surname *"
                     placeholderTextColor="rgba(0,0,0,0.2)"
+                    
                     onChangeText={text => {
                       this.setState({lastName: text, validationMsg: ''});
                     }}

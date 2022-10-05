@@ -10,7 +10,9 @@ export const getDeviceList = async (
   selectedTitle,
   selectedDeviceTag,
 ) => {
-  //console.log('getDeviceList()');
+  console.log('getDeviceList() called',seniorId,
+  selectedTitle,
+  selectedDeviceTag, );
 
   const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
 
@@ -26,7 +28,9 @@ export const getDeviceList = async (
 
   let apiUrl = `${api.optionTabsApi}Connected/${seniorId}`;
   let serviceUrl = '';
+  console.log("selectedTitle",selectedTitle)
   switch (selectedTitle) {
+  
     case 'Heart Rate':
       serviceUrl = `${apiUrl}/HeartRate`;
       break;
@@ -58,7 +62,7 @@ export const getDeviceList = async (
       serviceUrl = `${apiUrl}/Weight`;
       break;
     case 'Respiratory Level':
-      serviceUrl = `${apiUrl}/RespiratoryLevel`;
+      serviceUrl = `${apiUrl}/RespiratoryRate`;
       break;
     case 'Stress Level':
       serviceUrl = `${apiUrl}/StressLevel`;
@@ -72,7 +76,7 @@ export const getDeviceList = async (
   let defaultSelectedDevice = null;
 
   const deviceDataResult = await fetchApiData(deviceApiPayload);
-  // console.log("deviceDataResult: ", deviceDataResult);
+  console.log("deviceDataResult: ", deviceDataResult);
 
   if (
     !deviceDataResult ||
@@ -80,9 +84,9 @@ export const getDeviceList = async (
     !deviceDataResult.data ||
     deviceDataResult.data.length < 1
   ) {
-    // console.log("No Devices available: ", deviceDataResult);
+    console.log("No Devices available: ", deviceDataResult);
   } else {
-    // console.log("Devices found: ", deviceDataResult);
+    console.log("Devices found: ", deviceDataResult);
 
     deviceList = _.orderBy(
       deviceDataResult.data.map((item, index) => {
@@ -103,7 +107,7 @@ export const getDeviceList = async (
     selectedDevice: deviceList ? defaultSelectedDevice : deviceList[0],
     defaultSelectedDevice,
   };
-
+   console.log("data at getDevices list",data)
   return data;
 };
 

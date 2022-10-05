@@ -24,8 +24,121 @@ import axios from 'axios';
 // }
 
 // export const fieldsString = _fieldsString;
+getIndividualProfile = async (props) => {
+ 
+  const  id=props.id;
+console.log("check id ",id)
+ let uri = `https://stage01.sensights.ai:8080/api/Accounts/Profile/Profile/${id}` ;
+
+   try {
+     
+   const {data} =  await axios
+       .get(uri)
+       return data;
+     
+   } catch (error) {
+     console.log("individual",error.response)
+   
+   }
+ };
+
 
 class Updater {
+ 
+  updateIndividualProfile = async props => {
+    const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
+    const id=props.id;
+    // alert('id is',id)
+
+
+
+    let fatelError = null;
+    if (!token) fatelError = 'Missing token';
+    if (!props || !props.input) fatelError = 'Missing profile update fields';
+    if (fatelError) {
+      showMessage(fatelError, 'long');
+      return false;
+    }
+
+    let __profile = await getIndividualProfile({id});
+     // this.getProfileData();
+    console.log('__profile: ', __profile);
+    if (!__profile || __profile.error) {
+      showMessage(__profile.error || 'Unable to update!!', 'long');
+      return {error: __profile.error || 'Unable to update!'};
+    }
+
+    const _profile = __profile;
+    const input = props.input;
+
+    // console.log("input: ", input);
+
+    const formData = new FormData();
+    let fieldsArray = fieldsString.split(',');
+
+    for (let a = 0; a < fieldsArray.length; a++) {
+      if (!isSkipable(fieldsArray[a])) {
+        if (
+          input[fieldsArray[a]] !== undefined &&
+          input[fieldsArray[a]] != null
+        )
+          formData.append(fieldsArray[a], input[fieldsArray[a]]);
+        else if (
+          _profile[fieldsArray[a]] !== undefined &&
+          _profile[fieldsArray[a]] != null
+        )
+          formData.append(fieldsArray[a], _profile[fieldsArray[a]]);
+      }
+    }
+
+    // console.log("formData: ", formData);
+
+    var isSuccess = false;
+    var error = false;
+    let updateuri = `https://stage01.sensights.ai:8080/api/Accounts/Profile/Profile/${id}` ;
+    await sendRequest({
+      uri:updateuri,
+      method: 'put',
+      multipart: true,
+      body: formData,
+      debug: true,
+    })
+      .then(json => {
+        if (!json) return {error: 'Invalid response'};
+
+        if (json && json.errors) {
+          console.log('json.errors: ', json.errors);
+          isSuccess = false;
+          error = 'Error in updating profile!!! ';
+          error += json.errors.AgentEmail
+            ? `: ${json.errors.AgentEmail}`
+            : json.errors[0]
+            ? ` : ${json.errors[0].description}`
+            : '';
+
+          return;
+        }
+        if (json) {
+          console.log('json: ', json);
+          isSuccess = true;
+        }
+      })
+      .catch(error => {
+        console.log('error: ', error);
+        isSuccess = false;
+        error = error;
+      });
+
+    if (isSuccess && props.updateLocal) await this.refetchLocalProfile();
+
+    if (error) {
+      showMessage(_.isString(error) ? error : 'Request error', 'long');
+      return _.isString(error) ? {error} : {error: 'Request Error'};
+    }
+
+    return isSuccess;
+  };
+
   updateProfile = async props => {
     const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
 

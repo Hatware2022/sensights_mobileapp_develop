@@ -4,7 +4,7 @@ import React from "react";
 import { styles } from "./styles";
 
 export const ImageProfile = props => {
-  const { backgroundImage, onLogout, name, address, avatar, role, email } = props;
+  const { backgroundImage, onLogout, name, address, avatar, role, email,showLogOut=false } = props;
 
   const src = { uri: avatar } || images.placeholder_user;
 
@@ -14,7 +14,12 @@ export const ImageProfile = props => {
         <View style={styles.logoutButtonRoot}>
           <View style={styles.logoutButton}>
             <TouchableOpacity onPress={onLogout}>
-              <Text style={styles.logoutText}>LOGOUT</Text>
+              
+              {showLogOut ? 
+               <Text style={styles.logoutText}>LOGOUT</Text> 
+              :<Text style={styles.logoutText}>GO BACK</Text>
+              }
+             
             </TouchableOpacity>
           </View>
         </View>

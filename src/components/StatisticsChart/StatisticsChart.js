@@ -81,17 +81,17 @@ export const StatisticsChart = props => {
     } else {
       if (title == 'Stress Level') {
         averageValue =
-          averageValue == -1
+          averageValue == 0
             ? 'Relaxed'
-            : averageValue == 0
-            ? 'Normal'
             : averageValue == 1
-            ? 'Low Stress'
+            ? 'Normal'
             : averageValue == 2
-            ? 'Medium Stress'
+            ? 'Low Stress'
             : averageValue == 3
-            ? 'High Stress'
+            ? 'Medium Stress'
             : averageValue == 4
+            ? 'High Stress'
+            : averageValue == 5
             ? 'Very High Stress'
             : '';
       }

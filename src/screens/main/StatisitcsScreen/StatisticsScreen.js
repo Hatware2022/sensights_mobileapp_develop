@@ -274,6 +274,7 @@ export class StatisticsScreen extends Component {
         }stressLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
           timeOffsetState ? timeOffsetState : timeOffset.toString()
         }`;
+      break;
       case 'Respiratory Level':
           serviceUrl = `${
             api.healthStatsDayAvg

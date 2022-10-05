@@ -56,7 +56,12 @@ import {
   Assessments,
   PatientOverviewList,
   PatientDiaryNoteForm,
+  EditIndividualProfile
+  
+    
 } from '../screens';
+// import {EditIndividualProfile } from '../screens/main/EditIndividualProfile';
+import IndividualUserProfile from '../screens/main/IndividualUserProfile';
 import {fromBottom} from 'react-navigation-transitions';
 import {createStackNavigator, TransitionPresets} from 'react-navigation-stack';
 import {NavigationHeader} from '../components';
@@ -191,6 +196,14 @@ export const AppNavigator = createStackNavigator(
       screen: Location,
       navigationOptions: navProps => default_headerProps(navProps, {}),
     },
+    // Individual Profile
+    IndividualUserProfile: {
+      screen: IndividualUserProfile,
+      navigationOptions: navProps => default_headerProps(navProps, {}),
+    },
+
+    // s
+
     DevicesScreen: {
       screen: Devices,
       navigationOptions: navProps => default_headerProps(navProps, {}),
@@ -211,6 +224,12 @@ export const AppNavigator = createStackNavigator(
       screen: EditProfile,
       navigationOptions: navProps => default_headerProps(navProps, {}),
     },
+    // Edit individual Profile
+    EditIndividualProfile: {
+      screen: EditIndividualProfile,
+      navigationOptions: navProps => default_headerProps(navProps, {}),
+    },
+    // 
     MedicalReport: {
       screen: MedicalReport,
       navigationOptions: navProps => default_headerProps(navProps, {}),

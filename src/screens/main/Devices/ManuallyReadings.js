@@ -32,7 +32,7 @@ export default class ManuallyReadings extends Component {
       sleepHours: '',
       weight: '',
       fall: ' ',
-      stress: ' ',
+      stressLevel: ' ',
       bpSystolic: '',
       bpDiastolic: '',
       weightUnit: 'Kg',
@@ -54,13 +54,13 @@ export default class ManuallyReadings extends Component {
       bpSystolic,
       bpDiastolic,
       respiratoryLevel,
-      stress
+      stressLevel
     } = this.state;
     this.setState({spinner: true});
     if (
       heartRate.trim() != '' ||
       respiratoryLevel.trim() != '' ||
-      stress.trim() != '' ||
+      stressLevel.trim() != '' ||
       hrv.trim() != '' ||
       temperature.trim() != '' ||
       oxygenSaturation.trim() != '' ||
@@ -136,7 +136,7 @@ export default class ManuallyReadings extends Component {
       weightUnit,
       bloodGlucoseUnit,
       respiratoryLevel,
-      stress,
+      stressLevel,
     } = this.state;
     this.setState({spinner: true});
     const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
@@ -167,7 +167,7 @@ export default class ManuallyReadings extends Component {
     if (fall != '1' && fall != ' ') apiPayload.fallAccur = fall;
     if (sleepHours != '') apiPayload.TimeInBed = sleepHours * 60;
     if (respiratoryLevel >= 1 && respiratoryLevel<= 70 ) apiPayload.respiratoryRate = respiratoryLevel;
-    if (stress != ' ') apiPayload.stressLevel = stress;
+    if (stressLevel != ' ') apiPayload.stressLevel = stressLevel;
 
     console.log('apiPayload', apiPayload);
 
@@ -365,7 +365,7 @@ export default class ManuallyReadings extends Component {
       spinner,
       bloodGlucoseUnit,
       respiratoryLevel,
-      stress
+      stressLevel
     } = this.state;
 
     return (
@@ -702,9 +702,9 @@ export default class ManuallyReadings extends Component {
                     {value: '5', label: 'Very High Stress'},
                   ]}
                   placeholder={'Stress Level'}
-                  value={stress}
+                  value={stressLevel}
                   onChange={(value, index, item) => {
-                    this.setState({stress: value});
+                    this.setState({stressLevel: value});
                   }}
                 />
               </View>

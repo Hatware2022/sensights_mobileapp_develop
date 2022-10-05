@@ -29,6 +29,8 @@ export const UsersList = ({
   );
   const [refresh, setRefresh] = useState(false);
   const [user, setUser] = useState(['', '']);
+    // console.log("USers data is here",data)
+
 
   useEffect(() => {
     getAppUsers(u => {
@@ -55,9 +57,11 @@ export const UsersList = ({
     };
   }, []);
   const onPress = item => () => {
+    // console.log("item data",item)
     navigate('SeniorHome', {
       profileData: item,
       seniorId: item.seniorId,
+      // seniorName:"this is checking",
       seniorName: item.firstName + ' ' + item.lastName,
       seniorImg: item.profileImage,
       seniorGeofence: item.geofenceLimit,
@@ -88,11 +92,13 @@ export const UsersList = ({
   }
 
   const renderItem = ({item, index}) => {
+    // console.log("item data",item)
     const profileImage = item.profileImage
       ? {uri: item.profileImage}
       : icons.placeholder_user;
     const BadgedAvatar = withBadge(item.isOnline, {
       value: type === 'senior' ? ' ' : item.priority === 1 ? 'P' : 'S',
+    
       textStyle: {fontSize: 15, fontWeight: '500'},
       status: item.isOnline ? 'success' : 'error',
       badgeStyle: {top: item.isOnline ? 3 : 0, right: item.isOnline ? 15 : 0},
@@ -100,7 +106,10 @@ export const UsersList = ({
 
     return (
       <>
+      {/* {console.log("type",type)} */}
         {type === 'senior' ? (
+
+          // <></>
           <SeniorDetail
             individual={item}
             fetchSenior={fetchData}
@@ -119,7 +128,9 @@ export const UsersList = ({
                 rounded
                 size={size === 'small' ? 50 : 60}
                 activeOpacity={0.7}
-                onPress={() =>
+                Press={() =>
+                  // alert("clicked")
+                  
                   navigate('CaregiverDetailScreen', {
                     profileData: item,
                     id: item.careGiverId,
@@ -129,6 +140,7 @@ export const UsersList = ({
                     isShowTasks,
                     isShowStatics,
                   })
+                  
                 }
               />
             </View>
@@ -173,6 +185,7 @@ export const UsersList = ({
       <View style={styles.userListContainer}>
         <View style={{width: '90%'}}>
           {data && data.length > 0 ? (
+            // <></>
             <FlatList
               horizontal={true}
               showsHorizontalScrollIndicator={false}
@@ -182,6 +195,7 @@ export const UsersList = ({
               contentContainerStyle={styles.flatListContent}
             />
           ) : (
+            // <></>
             <AddUser type={type} refetch={fetchData} user={user} />
           )}
         </View>

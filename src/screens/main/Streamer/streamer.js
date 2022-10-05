@@ -478,17 +478,17 @@ export default class Streamer extends React.Component {
 
     const getStressLabel = stress => {
       switch (stress) {
-        case -1:
-          return 'Relaxed';
         case 0:
-          return 'Normal';
+          return 'Relaxed';
         case 1:
-          return 'Low Stress';
+          return 'Normal';
         case 2:
-          return 'Medium Stress';
+          return 'Low Stress';
         case 3:
-          return 'High Stress';
+          return 'Medium Stress';
         case 4:
+          return 'High Stress';
+        case 5:
           return 'Very High Stress';
         default:
           return 'Relaxed';

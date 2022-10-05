@@ -6,6 +6,7 @@ export * from "./CaregiverHome";
 export * from "./ChatScreen";
 export * from "./Devices";
 export * from "./EditProfile";
+export * from "./EditIndividualProfile";
 export * from "./HomeScreen";
 export * from "./Location";
 export * from "./Medication";

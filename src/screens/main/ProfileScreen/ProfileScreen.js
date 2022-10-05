@@ -137,6 +137,7 @@ export class ProfileScreen extends Component {
   };
   checkVisibility = async () => {
     const {navigation, getWidgetsSettings, role, apptype} = this.props;
+    console.log("getWidgetsSettings",)
     getWidgetsSettings();
 
     const careCirclePref = await StorageUtils.getValue(AppWidgets.CARE_CIRCLE);
@@ -293,7 +294,9 @@ export class ProfileScreen extends Component {
       this.setState({error: true, loading: false});
       showMessage('Error in getting profile data');
     } else {
+      // console.log("Profile data of login caregiver",profileData?.data);
       this.setState({
+        
         profileData: profileData?.data,
         role: profileData?.data?.roleName,
         loading: false,
@@ -626,6 +629,8 @@ export class ProfileScreen extends Component {
               }
               name={profileData?.firstName + ' ' + profileData?.lastName}
               address={profileData?.address}
+              
+              showLogOut={true}
               onLogout={this.onLogout}
               role={role}
               avatar={profileData?.imagePath || false}
@@ -646,10 +651,14 @@ export class ProfileScreen extends Component {
                   ? {uri: profileData.imagePath}
                   : icons.tab_profile
               }
+            
+             
+              isPrimary={true}
               onPress={() =>
                 navigation.navigate('EditProfileScreen', {
                   ...profileData,
                   role: role,
+             
                   onRefreshCallBack: () => this.getProfileData(),
                   careHomeLocation: profileData.careHomeOffice || 1,
                 })

@@ -39,6 +39,14 @@ export const deviceSettings = {
     headerBgColor: "#0466cf",
     type: "heart-rate",
   },
+  stressLevel: {
+    id: 6,
+    heading: "STRESS LEVEL",
+    unit: "bpm",
+    bgGradient: ["#FC575E", "#F7B42C"],
+    headerBgColor: "#FC575E",
+    type: "stress-level",
+  },
 };
 
 export const measurmentValues = {

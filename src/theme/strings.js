@@ -31,7 +31,9 @@ const strings = {
   // be_honest:
   //   "Be honest, a little more excercise and control on fats in diet could make you more healthier. ",
   heart_rate_analysis: 'Heart Rate Zone Analysis',
+  individual_profile:'Individual Profile',
   last_locations: 'Location',
+
   show_all: 'Show all',
   statistics: 'Health Data', // "Statistics",
   infection_risk: 'Infection Risk',

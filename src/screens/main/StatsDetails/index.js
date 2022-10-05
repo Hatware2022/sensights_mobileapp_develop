@@ -157,6 +157,7 @@ export class StatsDetails extends Component {
   }
 
   getGraphStats = async () => {
+    // alert("called")
     const selectedTitle = this.title;
     const seniorId = this.seniorId;
     const {timeOffsetState, selectedDeviceTag, startDate, endDate} = this.state;
@@ -176,9 +177,12 @@ export class StatsDetails extends Component {
     this.setState({loading: true});
 
     await getDeviceList(this.seniorId, this.title, _selectedDeviceTag).then(
+      
       response => {
         const {defaultSelectedDevice, deviceList} = response;
         this.setState({defaultSelectedDevice, deviceList});
+        console.log("response",response)
+        console.log("devices data",deviceList)
         return response;
       },
     );
@@ -262,6 +266,7 @@ export class StatsDetails extends Component {
         }stressLevel/${seniorId}/${startDate}/${endDate}?deviceTag=${_selectedDeviceTag}&&offSetHours=${
           timeOffsetState ? timeOffsetState : timeOffset.toString()
         }`;
+        break;
       case 'Respiratory Level':
         serviceUrl = `${
           api.healthStatsDayAvg
@@ -272,6 +277,8 @@ export class StatsDetails extends Component {
       default:
         serviceUrl = null;
     }
+
+
     const payload = {token: this.token, serviceUrl, method: 'get'};
 
     const statsDataResult = await fetchApiData(payload);
@@ -359,7 +366,23 @@ export class StatsDetails extends Component {
           statsDataResult.data.lastCapturedDateSystolic
         } / ${statsDataResult.data.lastCapturedDateDiastolic}`;
       }
-    } else {
+    } else if (selectedTitle == 'Stress Level') {
+      last30DayAvg =
+      statsDataResult.data.last30DayAvg == 0
+        ? null
+        : _.round(statsDataResult.data.last30DayAvg, 1);
+        lastCapturedValue =
+        statsDataResult.data.lastCapturedValue != '' || 
+        statsDataResult.data.lastCapturedValue != null ||
+        statsDataResult.data.lastCapturedValue == 0
+          ? statsDataResult.data.lastCapturedValue
+          : null;    
+    lastCapturedDate =
+      statsDataResult.data.lastCapturedDate == '0001-01-01T00:00:00' ||
+      !statsDataResult.data.lastCapturedDate
+        ? null
+        : statsDataResult.data.lastCapturedDate;
+     } else {
       last30DayAvg =
         statsDataResult.data.last30DayAvg == 0
           ? null
@@ -450,7 +473,6 @@ export class StatsDetails extends Component {
       />
     );
   }
-
   RenderHeader = () => {
     let {
       lastCapturedValue,
@@ -459,6 +481,8 @@ export class StatsDetails extends Component {
       fallLastValue,
       fallLastValueDate,
     } = this.state;
+
+    
     // const selectedDeviceTag = this.state.selectedDevice ? this.state.selectedDevice.value : this.selectedDeviceTag;
 
     const title = this.title;
@@ -477,7 +501,7 @@ export class StatsDetails extends Component {
     if (this.infoType == 'sleep') icon = icons.stats.sleepx90;
     if (this.infoType == 'weight') icon = icons.stats.weightx90;
     if (this.infoType == 'falls') icon = icons.stats.fallx90;
-    if (this.infoType == 'stress_level') icon = icons.stats.fallx90;
+    if (this.infoType == 'stress_level') icon = icons.stats.hrvx90;
     if (this.infoType == 'respiratory_rate') icon = icons.stats.hrvx90;
     let timeObj = null;
     if (this.infoType == 'sleep' && lastValue) {
@@ -495,17 +519,17 @@ export class StatsDetails extends Component {
         : lastValue;
     if (this.infoType == 'stress_level') {
       convertedValus =
-        lastValue == -1
+        lastValue == 0
           ? 'Relaxed'
-          : lastValue == 0
-          ? 'Normal'
           : lastValue == 1
-          ? 'Low Stress'
+          ? 'Normal'
           : lastValue == 2
-          ? 'Medium Stress'
+          ? 'Low Stress'
           : lastValue == 3
-          ? 'High Stress'
+          ? 'Medium Stress'
           : lastValue == 4
+          ? 'High Stress'
+          : lastValue == 5
           ? 'Very High Stress'
           : '';
     }
@@ -515,16 +539,15 @@ export class StatsDetails extends Component {
         <View>
           <Image source={icon} />
         </View>
-        {this.infoType != 'sleep' && this.infoType !== 'falls' && (
+        {this.infoType != 'sleep' && this.infoType !== 'falls' ?(
           <Text style={styles.StatusStyle}>
-            {convertedValus || '-'}
-            {lastValue ? (
+            {convertedValus && convertedValus != null ? convertedValus : '-' || '-'}
+            {lastValue? (
               <Text style={{fontSize: 32}}> {unitData.name}</Text>
             ) : null}
           </Text>
-        )
-        // <Text style={{ fontSize: 50, fontWeight: "bold", marginTop: 20, marginBottom: 20 }}>{lastValue || "-"}{lastValue ? <Text style={{ fontSize: 32 }}> {unitData.name}</Text> : null}</Text>
-        }
+        ):null}
+        {/* // <Text style={{ fontSize: 50, fontWeight: "bold", marginTop: 20, marginBottom: 20 }}>{lastValue || "-"}{lastValue ? <Text style={{ fontSize: 32 }}> {unitData.name}</Text> : null}</Text> */}        
         {/* {!timeObj && <Text style={{ fontSize: 25, fontWeight: "bold", marginTop: 20, marginBottom: 20 }}></Text>} */}
         {this.infoType == 'sleep' && (
           <Text
@@ -597,8 +620,7 @@ export class StatsDetails extends Component {
           </>
         )}
 
-        {this.infoType == 'falls'
-          ? fallLastValue > 0 && (
+         {this.infoType == 'falls' && fallLastValue > 0 ? (
               <Row>
                 <Col flex="auto">
                   <Text
@@ -615,7 +637,7 @@ export class StatsDetails extends Component {
                 </Col>
               </Row>
             )
-          : lastCapturedDate != null && (
+          : lastCapturedDate && lastCapturedDate != null && lastCapturedDate != '' ?
               <Row>
                 <Col flex="auto">
                   <Text
@@ -631,11 +653,14 @@ export class StatsDetails extends Component {
                   </Text>
                 </Col>
               </Row>
-            )}
+            :null} 
 
-        {lastCapturedDate != null && (
+         {lastCapturedDate && lastCapturedDate != null && (
           <>
-            {selectedDeviceTag && (
+          {console.log("gropdown menu",this.props.navigation.state.params?.selectedDeviceTag)}
+          {console.log("gropdown data",this.state.deviceList)}
+            {this.props.navigation.state.params?.selectedDeviceTag && (
+              
               <Row style={{marginTop: 30, width: '100%'}}>
                 <Col flex="auto">
                   <Text
@@ -646,7 +671,9 @@ export class StatsDetails extends Component {
                     textStyle={{color: '#000'}}
                     style={{paddingHorizontal: 15, width: '100%'}}
                     data={this.state.deviceList}
-                    value={selectedDeviceTag}
+                    
+                    value={this.props.navigation.state.params?.selectedDeviceTag}
+                    // key={index}
                     onChange={(value, index, item) => {
                       this.onClickTabItem(value, index, item);
                       // changeSelectedValue(value, index, item)
@@ -656,7 +683,7 @@ export class StatsDetails extends Component {
               </Row>
             )}
           </>
-        )}
+        )} 
       </View>
     );
   };
@@ -793,6 +820,9 @@ export class StatsDetails extends Component {
   };
 
   render() {
+
+  // console.log("getdevice",this.props.navigation.state.params);
+
     const {loading, busy, selectedDeviceTag} = this.state;
     const {navigation} = this.props;
     var alertData, alertData_BP_Sys;
@@ -828,7 +858,7 @@ export class StatsDetails extends Component {
           <View style={commonStyles.subContainer}>
             <this.RenderHeader />
 
-            {this.state.lastCapturedValue && this.getCurrentUnits().length > 1 && (
+            {this.title != 'Stress Level' && this.state.lastCapturedValue && this.getCurrentUnits().length > 1 && (
               <Row style={{marginBottom: 10}}>
                 <Col align="center" flex="auto">
                   <CustomSwitch

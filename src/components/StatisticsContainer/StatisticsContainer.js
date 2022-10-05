@@ -126,6 +126,7 @@ export const StatisticsContainer = props => {
         if (r && !r.error) {
           // console.log(">>>>>>>>>>>>>>>>> ", r);
           setData(r);
+          // console.log("data at heart",r)
           setError(null);
         } else {
           setError(r.error);
@@ -764,6 +765,7 @@ export const StatisticsContainer = props => {
     );
   };
   const getStressLevel = data => {
+    const {hr, hrDate, hrDeviceTag, hrTrafficColor} = data;
     // if (!defaultUnits) return null;
 
     // if (!defaultUnits) return null;
@@ -780,17 +782,17 @@ export const StatisticsContainer = props => {
       stressLevelTrafficColor,
     } = data;
     const StressLevelString =
-      stressLevel == -1
+      stressLevel == 0
         ? 'Relaxed'
-        : stressLevel == 0
-        ? 'Normal'
         : stressLevel == 1
-        ? 'Low Stress'
+        ? 'Normal'
         : stressLevel == 2
-        ? 'Medium Stress'
+        ? 'Low Stress'
         : stressLevel == 3
-        ? 'High Stress'
+        ? 'Medium Stress'
         : stressLevel == 4
+        ? 'High Stress'
+        : stressLevel == 5
         ? 'Very High Stress'
         : '';
     return (
@@ -803,7 +805,7 @@ export const StatisticsContainer = props => {
           // {}
           navigation.navigate('StatsDetails', {
             title: 'Stress Level',
-             deviceSettings: 'heartRate',
+            deviceSettings: heartRate,
             seniorId,
             timeOffset,
             subHeading: 'DAILY AVERAGE',
@@ -817,6 +819,7 @@ export const StatisticsContainer = props => {
             lastValueDate: [stressLevel, stressLevel],
             selectedDeviceTag: stressLevelDeviceTag,
             bg_color: stressLevelTrafficColor,
+            bg_color: hrTrafficColor,
           })
         }>
         {/* <Text style={{ fontSize: 35, fontWeight: "bold", textAlign: "center" }}>{hr}<Text style={{ fontSize: 14, fontWeight: "normal" }}> BPM</Text></Text> */}
@@ -856,6 +859,7 @@ export const StatisticsContainer = props => {
     );
   };
   const respiratoryLevel = data => {
+    // console.log("resporatory component data",data)
     //  debugger;
     // if (!defaultUnits) return null;
     // const {
@@ -880,7 +884,9 @@ export const StatisticsContainer = props => {
           respiratoryRateDeviceId,
           respiratoryRateDeviceTag,
           respiratoryRateTrafficColor,} = data;
+          console.log({respiratoryRateDeviceTag})
     return (
+     
       <StatisticsItemV2
         // avatar={theme.strings.respiratoryLevel}
         avatar={icons.stats.hrv}
@@ -890,8 +896,10 @@ export const StatisticsContainer = props => {
         // progressColor={theme.colors.green_shade_1}
         // progress={0.8}
         onPress={() =>
+          
           navigation.navigate('StatsDetails', {
             title: 'Respiratory Level',
+            deviceSettings: heartRate,
             seniorId,
             statsDate,
             timeOffset,
@@ -953,6 +961,7 @@ export const StatisticsContainer = props => {
           {/* <Text>seniorId: {seniorId}</Text> */}
           <Row style={{display: 'flex', marginHorizontal: 15}}>
             {statsVisibility.find(o => o['hdw-heart-rate'] == true) && (
+              // <></>
               <Col flex="50%">{data && getHeartRate(data)}</Col>
             )}
             {statsVisibility.find(o => o['hdw-hr-variability'] == true) && (
@@ -982,10 +991,10 @@ export const StatisticsContainer = props => {
             {statsVisibility.find(o => o['hdw-fall'] == true) && (
               <Col flex="50%">{data && getFallStats(data)}</Col>
             )}
-            {statsVisibility.find(o => o['hdw-fall'] == true) && (
+            {statsVisibility.find(o => o['hdw-stress-level'] == true) && (
               <Col flex="50%">{data && getStressLevel(data)}</Col>
             )}
-            {statsVisibility.find(o => o['hdw-fall'] == true) && (
+            {statsVisibility.find(o => o['hdw-respiratory-rate'] == true) && (
               <Col flex="50%">{data && respiratoryLevel(data)}</Col>
             )}
           </Row>

@@ -12,6 +12,9 @@ export const api = {
   profile: baseURL + 'Accounts/Profile/Profile',
   alerts: baseURL + 'Alerts',
   marksAsReadAlert: baseURL + 'Alerts/Acknowledge/All/UnRead/{userId}',
+  
+  profileByCaregiver:'/Accounts/Profile/Profile/{seniorId}',
+
   baseURL: baseURL,
   logout: baseURL + 'Accounts/Logout',
   signUp: baseURL + 'Accounts/AccountTest',

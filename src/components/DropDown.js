@@ -20,7 +20,7 @@ import { Row, Col } from "./Grid";
 ********/
 
 export const DropDown = props => {
-    const { data, value, selectedIndex } = props;
+    const { data, value, selectedIndex,disabled } = props;
     const [showOptions, setShowOptions] = React.useState(false)
     // const [yPoz, setYPoz] = React.useState({y:new Animated.Value(-2000)});
 
@@ -59,7 +59,7 @@ export const DropDown = props => {
         </>)
 
     return (<>
-        <TouchableOpacity disabled={!data || data.length < 1} onPress={() => toggleOptions(true)} style={ddStyle}>
+        <TouchableOpacity disabled={!data || data.length < 1 || disabled} onPress={() => toggleOptions(true)} style={ddStyle}>
             <Row>
                 <Col flex="auto" valign="center" style={{paddingHorizontal:5}}>
                     {data && data.map((item, i) => {

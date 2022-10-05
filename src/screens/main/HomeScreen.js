@@ -133,6 +133,7 @@ export class HomeScreen extends Component {
 
   startLocationTimer = async () => {
     const role = await StorageUtils.getValue(AppConstants.SP.ROLE);
+    console.log("role is",role)
     const isLogin = await StorageUtils.getValue(AppConstants.SP.IS_LOGGED_IN);
     // const trackingStatus = await requestTrackingPermission();
     if (role === 'senior' && isLogin === '1') {

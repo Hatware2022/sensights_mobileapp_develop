@@ -140,6 +140,7 @@ export const __DateField = (props) => {
 
 
 export const DateField = (props) => {
+    const { disabled } = props;
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const [selectedDate, setSelectedDate] = useState( null );
     const [selectedDateDisplay, setSelectedDatedisplay] = useState( null );
@@ -226,7 +227,9 @@ export const DateField = (props) => {
     // 
     return (
         <View>
-            <TouchableOpacity onPress={showDatePicker}>
+            <TouchableOpacity 
+              disabled={disabled}
+            onPress={showDatePicker}>
                 <Text style={props.style}>
                     {selectedDateDisplay || props.value ||   <Text style={{ color: "rgba(0,0,0,0.2)" }}>{props.placeholder || ""}</Text>}
                 </Text>
