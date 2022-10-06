@@ -122,14 +122,15 @@ export const AddEditMedicalReportForm = props => {
 
   const handleEditMedicalReport = async () => {
     if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
-      alert('File is required')
+    // if(file?.[0].uri === undefined || file?.[0].uri === null){
+      alert('File is requiredss')
       return
     }
     if(message && message ===''){
       alert('Message is required')
       return
     }
-    handlePermissionsMedicalReport(props.navigation.state.params?.item?.id)
+    handlePermissionsMedicalReport(props.navigation.state.params?.item?.id,true)
     const userId = await StorageUtils.getValue(AppConstants.SP.USER_ID);
     let formdata = new FormData();
     if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
@@ -147,7 +148,7 @@ export const AddEditMedicalReportForm = props => {
 
         try {
           let response = await axios({
-            url: `${api.addMedicalReport}/${props.navigation.state.params?.item?.id}`,
+            url: `${api.addMedicalReport}Test/${props.navigation.state.params?.item?.id}`,
             method: 'PUT',
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -177,7 +178,8 @@ export const AddEditMedicalReportForm = props => {
 
   const handleAddMedicalReport = async () => {
     if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
-      alert('File is required')
+    // if(file?.[0].uri === undefined || file?.[0].uri === null){
+      alert('File is requireds')
       return
     }
     if(message && message ===''){

@@ -1,4 +1,4 @@
-import {showMessage} from '../../../utils';
+import {AppConstants, showMessage, StorageUtils} from '../../../utils';
 import {FlatList, View, StyleSheet, Alert,Text, TouchableOpacity} from 'react-native';
 import {
   NoDataState,
@@ -79,8 +79,14 @@ export class MedicalReport extends Component {
       this.setState({spinner: true});
       // const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
 
+      const url = this.props.navigation.state.params?.primaryCareGiverApi === true ?
+      api.baseURL + 'SeniorMedicalDetails/Get/ByAll/IsPrimary/' + await StorageUtils.getValue(AppConstants.SP.USER_ID)  : 
+      this.props.navigation.state.params?.primaryCareGiverApi === false ?
+      api.baseURL + 'SeniorMedicalDetails/Get/ByAll/' + await StorageUtils.getValue(AppConstants.SP.USER_ID):
+      api.baseURL + 'SeniorMedicalDetails/Get/ByAll'
+
       await axios
-        .get(api.baseURL + 'SeniorMedicalDetails/Get/ByAll')
+        .get(url)
         .then(res => {
             console.log('GET MEDICAL REPORT><><><><><>',res.data)
           if (res?.data != null) {
@@ -100,6 +106,7 @@ export class MedicalReport extends Component {
         });
 
     } catch (err) {
+      console.log(err)
       this.setState({spinner: false});
       showMessage('Error in getting task');
     }
@@ -183,7 +190,7 @@ export class MedicalReport extends Component {
           title="Medical Report"
           allowBack
           navigation={this.props.navigation}
-          rightComponent={this.state.primaryCareGiver ? <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddEditMedicalReportForm')}><Text style={{color:'#fff',fontSize:14}}>Add New</Text></TouchableOpacity> : ''}
+          rightComponent={this.state.primaryCareGiver ? <TouchableOpacity onPress={()=>this.props.navigation.navigate('AddEditMedicalReportForm',{primaryCareGiverApi:this.props.navigation.state.params?.primaryCareGiverApi})}><Text style={{color:'#fff',fontSize:14}}>Add New</Text></TouchableOpacity> : ''}
         />
 
         <View style={styles.subContainer}>
@@ -211,7 +218,7 @@ export class MedicalReport extends Component {
                   taskPriority={item.taskPriority}
                   id={item.id}
                   showTaskCompleteDialog={this.showTaskCompleteDialog}
-                  onPressEdit={()=>this.props.navigation.navigate('AddEditMedicalReportForm',{edit:true,item:item})}
+                  onPressEdit={()=>this.props.navigation.navigate('AddEditMedicalReportForm',{edit:true,item:item,primaryCareGiverApi:this.props.navigation.state.params?.primaryCareGiverApi})}
                   onPressDelete={()=> Alert.alert(
                     'Warning',
                     'Are you sure, you want to delete',

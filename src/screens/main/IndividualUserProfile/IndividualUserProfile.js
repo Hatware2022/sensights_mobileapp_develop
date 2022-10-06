@@ -737,7 +737,8 @@ export class IndividualUserProfile extends Component {
               email={profileData?.email}
               description={profileData?.profileDescription}
             />
-    <TouchableOpacity style={{width:'100%',height:50,paddingLeft:20,borderTopColor:'grey',borderBottomColor:'grey',borderTopWidth:1,borderBottomWidth:1}} onPress={()=>this.props.navigation.navigate('MedicalReport',{primaryCareGiver:this.state.primaryCareGiver})}>
+    <TouchableOpacity style={{width:'100%',height:50,paddingLeft:20,borderTopColor:'grey',borderBottomColor:'grey',borderTopWidth:1,borderBottomWidth:1}} 
+    onPress={()=>this.props.navigation.navigate('MedicalReport',{primaryCareGiver:this.state.primaryCareGiver,primaryCareGiverApi:true})}>
       <Text style={{fontSize:16,marginTop:13,fontWeight:'bold',}}>Add Medical Record</Text>
     </TouchableOpacity>
   
