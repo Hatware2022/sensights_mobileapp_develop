@@ -52,7 +52,6 @@ export class MedicalReport extends Component {
   }
 
   componentDidMount() {
-    
     this.setState({spinner: true});
     this.getRecordFromServer();
   }
@@ -75,14 +74,14 @@ export class MedicalReport extends Component {
   };
 
   getRecordFromServer = async () => {
+    let id = await StorageUtils.getValue(AppConstants.SP.USER_ID)
     try {
       this.setState({spinner: true});
       // const token = await StorageUtils.getValue(AppConstants.SP.ACCESS_TOKEN);
-
       const url = this.props.navigation.state.params?.primaryCareGiverApi === true ?
       api.baseURL + 'SeniorMedicalDetails/Get/ByAll/IsPrimary/' + await StorageUtils.getValue(AppConstants.SP.USER_ID)  : 
       this.props.navigation.state.params?.primaryCareGiverApi === false ?
-      api.baseURL + 'SeniorMedicalDetails/Get/ByAll/' + await StorageUtils.getValue(AppConstants.SP.USER_ID):
+      api.baseURL + 'SeniorMedicalDetails/Get/ByAll/' + id :
       api.baseURL + 'SeniorMedicalDetails/Get/ByAll'
 
       await axios

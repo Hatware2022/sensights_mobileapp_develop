@@ -117,24 +117,6 @@ export class IndividualUserProfile extends Component {
     if (this.focusListener) this.focusListener.remove();
   }
 
-
-  getPrimaryCareGiver = async () => {
-    const uri = `${
-      api.getPrimaryCaregiver
-    }${await StorageUtils.getValue(AppConstants.SP.USER_ID)}`;
-    
-    try {
-      let response = await axios({
-        url: uri,
-        method: 'GET',
-      });
-      console.log('response while Getting primary caregiver', response);
-      this.setState({primaryCareGiver:response?.data})
-    } catch (error) {
-      console.log('Error while Getting Primary caregiver=> ' + error);
-    }
-  }
-
   async loadPageData() {
     this.setState({loading: true});
     if (Platform.OS !== 'ios') {
@@ -309,26 +291,22 @@ export class IndividualUserProfile extends Component {
   };
 
   getProfileData = async () => {
-    const id = this.profileData.seniorId;
-
-    let primaryuri = `https://stage01.sensights.ai:8080/api/Seniors/IsPrimary/caregiver/${id}`;
-
+     const id = this.profileData.seniorId;
+    
     try {
-      await axios
-        .get(primaryuri)
-        .then(async response => {
-          if (response != null) {
-            // console.log("is Primary",response?.data)
-            this.setState({
-              isPrimary: response?.data,
-            });
-          }
-        })
-        .catch(err => {
-          console.log('true or false', err.response);
-        });
-    } catch {
-      console.log('individual', error.response);
+          const uri = `${
+      api.getPrimaryCaregiver
+    }${id}`;
+      let response = await axios({
+        url: uri,
+        method: 'GET',
+      });
+      console.log('response while Getting primary caregiver', response);
+      this.setState({primaryCareGiver:response?.data,
+        isPrimary: response?.data,
+      })
+    } catch (error) {
+      console.log('Error while Getting Primary caregiver=> ' + error);
     }
 
     let uri = `https://stage01.sensights.ai:8080/api/Accounts/Profile/Profile/${id}`;
@@ -350,7 +328,7 @@ export class IndividualUserProfile extends Component {
           // this.setState({loading: false});
         })
         .catch(err => {
-          console.log('individual', err.response);
+          console.log('individual', err);
         });
     } catch (error) {
       console.log('individual', error.response);
@@ -683,16 +661,16 @@ export class IndividualUserProfile extends Component {
           <View style={styles.imageProfile}>
             <ImageProfile
               backgroundImage={
-                profileData && profileData?.imagePath && role != 'senior'
-                  ? {uri: profileData?.imagePath}
+                profileData && this.profileData?.imagePath && role != 'senior'
+                  ? {uri: this.profileData?.imagePath}
                   : images?.profile_bg
               }
-              name={profileData?.firstName + ' ' + profileData?.lastName}
+              name={this.profileData?.firstName + ' ' + this.profileData?.lastName}
               address={this.profileData?.address}
               onLogout={() => navigation.navigate('HomeScreen')}
               role={role}
-              avatar={profileData?.imagePath || false}
-              email={profileData?.email}
+              avatar={this.profileData?.imagePath || false}
+              email={this.profileData?.email}
             />
           </View>
           <ScrollView
@@ -712,7 +690,7 @@ export class IndividualUserProfile extends Component {
               isPrimary={isPrimary}
                 showToPrimary={true}
                 onViewProfile={()=>navigation.navigate('EditIndividualProfile',{
-                  ...profileData,
+                  ...this.profileData,
                   role: role,
                   isPrimary: isPrimary,
                   individual:true,
@@ -738,8 +716,8 @@ export class IndividualUserProfile extends Component {
               description={profileData?.profileDescription}
             />
     <TouchableOpacity style={{width:'100%',height:50,paddingLeft:20,borderTopColor:'grey',borderBottomColor:'grey',borderTopWidth:1,borderBottomWidth:1}} 
-    onPress={()=>this.props.navigation.navigate('MedicalReport',{primaryCareGiver:this.state.primaryCareGiver,primaryCareGiverApi:true})}>
-      <Text style={{fontSize:16,marginTop:13,fontWeight:'bold',}}>Add Medical Record</Text>
+    onPress={()=>this.props.navigation.navigate('MedicalReport',{primaryCareGiver:this.state.primaryCareGiver,primaryCareGiverApi:true,isPrimary:isPrimary})}>
+      <Text style={{fontSize:16,marginTop:13,fontWeight:'bold',}}>Medical Record</Text>
     </TouchableOpacity>
   
             <UserSettings settingList={settingList} showDivider={true} />

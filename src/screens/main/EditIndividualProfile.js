@@ -32,7 +32,7 @@ import {
   import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
   import Snackbar from 'react-native-snackbar';
   import Spinner from 'react-native-loading-spinner-overlay';
-  import {api, GET_BRANCHES_AND_AGENTS} from '../../api';
+  import {GET_BRANCHES_AND_AGENTS} from '../../api';
   import {sendRequest} from '../../apicall';
   import {images} from '../../assets';
   import {theme} from '../../theme';
@@ -47,7 +47,6 @@ import {
     genderArray,
   } from '../../configs';
   import {HiddenInfoButton} from '../../components';
-  import axios from 'axios';
   
   /********* **********
    * *******

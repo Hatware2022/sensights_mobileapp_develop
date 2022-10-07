@@ -103,6 +103,7 @@ export const api = {
   careGiver:baseURL + 'CareGivers/My',
   addPermissionCareGiver:baseURL + 'SeniorMedicalDetails/Add/Permissions',
   addMedicalReport : baseURL + 'SeniorMedicalDetails/Upload/Document',
+  addMedicalReportTest : baseURL + 'SeniorMedicalDetails/Upload/DocumentTest',
   
   //updated meeting room Api's
   //to get all meetings (scheduled,pending,completed,rejected)

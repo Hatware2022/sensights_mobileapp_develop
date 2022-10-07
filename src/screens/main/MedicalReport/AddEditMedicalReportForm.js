@@ -121,9 +121,8 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleEditMedicalReport = async () => {
-    if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
-    // if(file?.[0].uri === undefined || file?.[0].uri === null){
-      alert('File is requiredss')
+    if(!file){
+      alert('File is required')
       return
     }
     if(message && message ===''){
@@ -148,7 +147,7 @@ export const AddEditMedicalReportForm = props => {
 
         try {
           let response = await axios({
-            url: `${api.addMedicalReport}Test/${props.navigation.state.params?.item?.id}`,
+            url: `${api.addMedicalReportTest}/${props.navigation.state.params?.item?.id}`,
             method: 'PUT',
             headers: {
               'Content-Type': 'multipart/form-data'
@@ -177,9 +176,9 @@ export const AddEditMedicalReportForm = props => {
   }
 
   const handleAddMedicalReport = async () => {
-    if(file || file?.[0].uri === undefined || file && file?.[0].uri === null){
+    if(!file){
     // if(file?.[0].uri === undefined || file?.[0].uri === null){
-      alert('File is requireds')
+      alert('File is required')
       return
     }
     if(message && message ===''){
