@@ -81,13 +81,46 @@ export const PrimaryCheckbox = ({
       setCheckbox(false);
       showMessage('Error!', 'long');
     }
+
+    try {
+      await axios
+        .put(`${api.caregiverPriorityPriority}${caregiverId}`,)
+        .then(res => {
+          if (res?.data != null) {
+            alert(JSON.stringify(res))
+            setLoadingPrimary(false);
+            showMessage(
+              userType
+                ? userType + ' set as primary ' + userType
+                : 'Caretaker set as primary Caretaker',
+            );
+            if (fetchUsers) fetchUsers();
+          }
+        })
+        .catch(err => {
+          console.log('eerrr',err)
+          setCheckbox(false);
+          setTimeout(() => {
+            Snackbar.show({
+              text: err?.description,
+              duration: Snackbar.LENGTH_SHORT,
+            });
+          }, 100);
+        });
+
+    } catch (error) {
+      setLoadingPrimary(false);
+      setCheckbox(false);
+      showMessage('Error!', 'long');
+    }
+    
   };
 
   return (
     <>
       <Spinner visible={loadingPrimary} />
       <CheckBox
-        title={`${checkbox ? 'Set' : 'Set'} Primary`}
+        title={`${checkbox ? 'Sets' : 'Set'} Primary`}
         containerStyle={{width: '96%', marginVertical: 12}}
         size={32}
         checked={checkbox}

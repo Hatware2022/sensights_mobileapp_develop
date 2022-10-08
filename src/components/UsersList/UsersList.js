@@ -128,7 +128,7 @@ export const UsersList = ({
                 rounded
                 size={size === 'small' ? 50 : 60}
                 activeOpacity={0.7}
-                Press={() =>
+                onPress={() =>
                   // alert("clicked")
                   
                   navigate('CaregiverDetailScreen', {

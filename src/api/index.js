@@ -42,6 +42,7 @@ export const api = {
   invitesSenior: baseURL + 'Invites/Senior/Invite',
   caregiverDetail: baseURL + 'CareGivers/Detail',
   caregiverPriority: baseURL + 'CareGivers/Priority',
+  caregiverPriorityPriority: baseURL + 'Seniors/ChangePrimaryCaregiver/',
   isWatchPaired: baseURL + 'Locations/IsWatchPaired',
   lastLocation: baseURL + 'Locations/Senior/LastLocation',
   version: baseURL + 'ApplicationSettings/Version',
